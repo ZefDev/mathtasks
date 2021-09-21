@@ -42,15 +42,15 @@
             </div>
             <div class="flex items-center justify-center space-x-2 mt-4">
                 <a class="btn" href="/login/vkontakte">
-                    <img :src="'../storage/img/vk.png'" width="50"
+                    <img :src="'https://www.dropbox.com/s/lqd3s0eyz8tjroz/vk.png?dl=0'" width="50"
                          height="50" alt="vk"/>
                 </a>
                 <a class="btn" href="/login/github">
-                    <img :src="'../storage/img/github.png'" width="50"
+                    <img :src="'https://www.dropbox.com/s/givwtduguwct1j5/github.png?dl=0'" width="50"
                          height="50" alt="github"/>
                 </a>
                 <a class="btn" href="/login/google">
-                    <img :src="'../storage/img/gmail.png'" width="50"
+                    <img :src="'https://www.dropbox.com/s/n3ek1pk106yquf3/gmail.png?dl=0'" width="50"
                          height="50" alt="google"/>
                 </a>
             </div>
