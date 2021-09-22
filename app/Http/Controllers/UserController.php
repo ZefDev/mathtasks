@@ -15,7 +15,7 @@ class UserController extends Controller
     }
 
     public function users(){
-        return User::all();
+        return User::select()->orderBy('id', 'ASC')->get();
     }
 
     public function delete($id){
