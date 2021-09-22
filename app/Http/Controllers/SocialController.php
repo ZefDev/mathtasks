@@ -16,6 +16,7 @@ class SocialController extends Controller
     public function Callback($provider)
     {
         $userSocial = Socialite::driver($provider)->stateless()->user();
+
         $users = User::where(['provider_id' => $userSocial->getId()])->first();
         if ($users) {
             Auth::login($users);
@@ -27,7 +28,6 @@ class SocialController extends Controller
                     'email' => $userSocial->getEmail(),
                     'profile_photo_path' => $userSocial->getAvatar(),
                     'provider_id' => $userSocial->getId(),
-                    'status' => 1,
                     'password' => encrypt('helloadmin'),
                     'provider' => $provider,
                 ]);
@@ -38,7 +38,6 @@ class SocialController extends Controller
                     'profile_photo_path' => $userSocial->avatar,
                     'provider_id' => $userSocial->id,
                     'password' => encrypt('helloadmin'),
-                    'status' => 1,
                     'provider' => $provider,
                 ]);
             }

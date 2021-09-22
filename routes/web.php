@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\SocialController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,3 +31,12 @@ Route::get('login/{provider}/callback', [SocialController::class, 'Callback']);
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/admin', function () {
+    return Inertia::render('Admin/container');
+})->name('admin');
+
+Route::get('/admin/users', [UserController::class, 'users']);
+Route::get('/admin/users/{id}/delete', [UserController::class, 'delete']);
+Route::get('/admin/users/{id}/set-block', [UserController::class, 'setBlock']);
+Route::get('/admin/users/{id}/set-admin', [UserController::class, 'setAdmin']);
