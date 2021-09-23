@@ -19,7 +19,9 @@ class SocialController extends Controller
 
         $users = User::where(['provider_id' => $userSocial->getId()])->first();
         if ($users) {
-            Auth::login($users);
+            if (!$users->isBlock) {
+                Auth::login($users);
+            }
             return redirect('/');
         } else {
             if ($provider !='github') {

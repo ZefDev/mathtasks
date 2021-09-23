@@ -25,6 +25,9 @@
                                 <jet-nav-link v-if="$page.props.user.isAdmin" :href="route('admin')" :active="route().current('admin')">
                                     Admin
                                 </jet-nav-link>
+                                <jet-nav-link v-if="$page.props.user.isAdmin" :href="route('admin')" :active="route().current('admin')">
+                                    Admin
+                                </jet-nav-link>
                             </div>
                         </div>
 
