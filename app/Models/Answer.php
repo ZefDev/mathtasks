@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Answer extends Model
 {
     use HasFactory;
+
+    public function task(){
+        return $this->hasOne('App\Models\Task','id','task_id');
+    }
 }

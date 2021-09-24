@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\TaskController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,7 +38,23 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/admin', function () {
     return Inertia::render('Admin/container');
 })->name('admin');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks', function () {
+    return Inertia::render('MyTasks/container');
+})->name('mytasks');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/new', function () {
+    return Inertia::render('MyTasks/New/container');
+})->name('new.task');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/edit', function () {
+    return Inertia::render('MyTasks/Edit/container');
+})->name('new.edit');
+
 Route::get('/admin/users', [UserController::class, 'users']);
 Route::get('/admin/users/{id}/delete', [UserController::class, 'delete']);
 Route::get('/admin/users/{id}/set-block', [UserController::class, 'setBlock']);
 Route::get('/admin/users/{id}/set-admin', [UserController::class, 'setAdmin']);
+
+Route::get('/admin/tasks', [TaskController::class, 'tasks']);
+
+Route::get('/theme', [ThemeController::class, 'themes']);

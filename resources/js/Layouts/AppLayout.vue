@@ -25,8 +25,8 @@
                                 <jet-nav-link v-if="$page.props.user.isAdmin" :href="route('admin')" :active="route().current('admin')">
                                     Admin
                                 </jet-nav-link>
-                                <jet-nav-link v-if="$page.props.user.isAdmin" :href="route('admin')" :active="route().current('admin')">
-                                    Admin
+                                <jet-nav-link :href="route('mytasks')" :active="route().current('mytasks')">
+                                    My tasks
                                 </jet-nav-link>
                             </div>
                         </div>
@@ -153,6 +153,9 @@
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link v-if="$page.props.user.isAdmin" :href="route('admin')" :active="route().current('admin')">
                             Admin
+                        </jet-responsive-nav-link>
+                        <jet-responsive-nav-link :href="route('mytasks')" :active="route().current('mytasks')">
+                            My tasks
                         </jet-responsive-nav-link>
                     </div>
 
