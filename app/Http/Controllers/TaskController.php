@@ -35,10 +35,12 @@ class TaskController extends Controller
 
         if($reguest->has('file')){
             $image = new Image;
-            $image->link =Storage::disk('dropbox')->put('file.jpg', $reguest->file('file'));//Storage::putFile('imagesAnswer', $reguest->file('file'));
+            $temp_link =Storage::disk('dropbox')->put('', $reguest->file('file'));//Storage::putFile('imagesAnswer', $reguest->file('file'));
+            $image->link = Storage::disk('dropbox')->url($temp_link);
             $image->task_id = $task->id;
             $image->save();
         }
+
         return $task;
     }
 }
