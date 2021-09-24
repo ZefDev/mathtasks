@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
+
     use HasFactory;
 
     public function user(){
@@ -37,4 +38,12 @@ class Task extends Model
     {
         return $this->belongsToMany('App\Models\Tag','tag_tasks');
     }
+
+    protected $fillable = [
+        'name',
+        'condition',
+        'theme_id',
+//        'image_id',
+//        'answer_id',
+    ];
 }

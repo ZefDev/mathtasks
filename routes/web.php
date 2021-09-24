@@ -56,5 +56,5 @@ Route::get('/admin/users/{id}/set-block', [UserController::class, 'setBlock']);
 Route::get('/admin/users/{id}/set-admin', [UserController::class, 'setAdmin']);
 
 Route::get('/admin/tasks', [TaskController::class, 'tasks']);
-
+Route::post('/task/create', [TaskController::class, 'create']);
 Route::get('/theme', [ThemeController::class, 'themes']);

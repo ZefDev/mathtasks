@@ -18,9 +18,7 @@ class CreateTasksTable extends Migration
             $table->string("name");
             $table->string("condition");
             $table->integer("theme_id");
-            $table->integer("image_id");
-            $table->integer("answer_id");
-            $table->integer("tag_task_id");
+            $table->integer("tag_task_id")->nullable();
             $table->integer("user_id");
             $table->timestamps();
         });
