@@ -10,19 +10,28 @@ class Task extends Model
 
     use HasFactory;
 
-    public function user(){
-        return $this->hasOne('App\Models\User', 'id','user_id');
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
     public function theme(){
-        return $this->hasOne('App\Models\Theme', 'id','theme_id');
+        return $this->belongsTo(Theme::class, 'theme_id', 'id');
     }
 
     public function images() {
-        return $this->hasMany('App\Models\Image', 'id', 'image_id');
+        return $this->hasMany(Image::class, 'task_id', 'id');
     }
     public function answers() {
-        return $this->hasMany('App\Models\Answer', 'id', 'answer_id');
+        return $this->hasMany(Answer::class, 'task_id', 'id');
     }
+
+//    public function answers()
+//    {
+//        return $this->belongsTo(Answer::class,'task_id','id');
+//    }
+
     public function comments() {
         return $this->hasMany('App\Models\Comment', 'id', 'task_id');
     }

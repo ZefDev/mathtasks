@@ -9,7 +9,8 @@ class Answer extends Model
 {
     use HasFactory;
 
-    public function task(){
-        return $this->hasOne('App\Models\Task','id','task_id');
+    public function task()
+    {
+        return $this->hasOne(Task::class);
     }
 }

@@ -34,13 +34,78 @@ class TaskController extends Controller
         }
 
         if($reguest->has('file')){
-            $image = new Image;
-            $temp_link =Storage::disk('dropbox')->put('', $reguest->file('file'));//Storage::putFile('imagesAnswer', $reguest->file('file'));
-            $image->link = Storage::disk('dropbox')->url($temp_link);
-            $image->task_id = $task->id;
-            $image->save();
+            $files = $reguest->file('file');
+            foreach ($files as $file) {
+                $image = new Image;
+                $temp_link =Storage::disk('dropbox')->put('', $file);//Storage::putFile('imagesAnswer', $reguest->file('file'));
+                $image->link = Storage::disk('dropbox')->url($temp_link);
+                $image->task_id = $task->id;
+                $image->save();
+            }
+        }
+        return $task;
+    }
+
+    public function update(Request $reguest,$id){
+
+        $task = Task::find($id);
+        $task->theme_id=(int) $reguest->input('theme_id');
+        $task->name=$reguest->input('name');
+        $task->condition=$reguest->input('condition');
+        $task->save();
+
+        foreach (json_decode($reguest->input('answers')) as $item){
+            if (isset($item->id)){
+                $answer = Answer::find($item->id);
+            }else{
+                $answer = new Answer;
+            }
+            $answer->answer = $item->answer;
+            $answer->task_id = $task->id;
+            $answer->save();
+        }
+
+        if($reguest->has('file')) {
+            $files = $reguest->file('file');
+            foreach ($files as $file) {
+                $image = new Image;
+                $temp_link = Storage::disk('dropbox')->put('', $file);//Storage::putFile('imagesAnswer', $reguest->file('file'));
+                $image->link = Storage::disk('dropbox')->url($temp_link);
+                $image->task_id = $task->id;
+                $image->save();
+            }
         }
 
         return $task;
+    }
+
+    public function getTaskCurrentUser(){
+//        return Task::select()->where([
+//            ['user_id', '=', Auth::user()->id]
+//        ])->orderBy('id', 'ASC')->get();
+        return Auth::user()->tasks;
+    }
+    public function delete($id){
+        return Task::find($id)->delete();
+    }
+    public function getById($id){
+        $task = Task::find($id);
+
+        return response()->json([
+            'user' => $task->user,
+            'task' => $task,
+            'theme' => $task->theme,
+            'answers' => $task->answers,
+            'images' => $task->images,
+        ]);
+//            array(
+//            'user' => $task->post,
+//            'task' => $task,
+//            'theme' => $task->theme,
+//        );
+//        return Task::select()->where([
+//            ['user_id', '=', Auth::user()->id],
+//            ['id', '=', $id]
+//        ])->get();
     }
 }

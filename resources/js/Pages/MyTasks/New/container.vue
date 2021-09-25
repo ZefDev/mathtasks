@@ -56,31 +56,18 @@
                                     <button @click="addAnswer" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add answer</button>
                                 </div>
                                 <div class="md:col-span-5">
-                                    <div class="flex justify-center mt-8">
-                                        <div class="rounded-lg shadow-xl bg-gray-50 lg:w-1/2">
-                                            <div class="m-4">
-                                                <label class="inline-block mb-2 text-gray-500">Upload
-                                                    Image(jpg,png,svg,jpeg)</label>
-                                                <div class="flex items-center justify-center w-full">
-                                                    <label class="flex flex-col w-full h-32 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300">
-                                                        <div class="flex flex-col items-center justify-center pt-7">
-                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                 class="w-12 h-12 text-gray-400 group-hover:text-gray-600" viewBox="0 0 20 20"
-                                                                 fill="currentColor">
-                                                                <path fill-rule="evenodd"
-                                                                      d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                                                                      clip-rule="evenodd" />
-                                                            </svg>
-                                                            <p class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
-                                                                Select a photo</p>
-                                                        </div>
-                                                        <input id="file" type="file" class="opacity-0" @change="previewFiles" />
-                                                    </label>
+                                    <div class="form-group">
+                                        <label for="file">Select Image</label>
+                                        <input type="file" accept="image/*" multiple="multiple" @change="previewMultiImage" class="form-control-file" id="file">
+                                        <button @click="reset" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Clear All</button>
+                                        <div class="border p-2 mt-3">
+                                            <p>Preview Here:</p>
+                                            <div v-if="preview_list.length">
+                                                <div v-for="(item, index) in preview_list" :key="index">
+                                                    <img :src="item" class="img-fluid" />
+                                                    <p class="mb-0">file name: {{ image_list[index].name }}</p>
+                                                    <p>size: {{ image_list[index].size/1024 }}KB</p>
                                                 </div>
-                                            </div>
-                                            <div class="flex p-2 space-x-4">
-                                                <button class="px-4 py-2 text-white bg-red-500 rounded shadow-xl">Cannel</button>
-                                                <button class="px-4 py-2 text-white bg-green-500 rounded shadow-xl">Create</button>
                                             </div>
                                         </div>
                                     </div>
@@ -128,12 +115,31 @@ export default defineComponent({
             answers:[],
             theme:'',
             condition:'',
-            name:''
+            name:'',
+            preview_list: [],
+            image_list: []
         }
     },
     methods:{
-        previewFiles(event) {
-            console.log(event.target.files);
+        previewMultiImage(event) {
+            var input = event.target;
+            var count = input.files.length;
+            var index = 0;
+            if (input.files) {
+                while(count --) {
+                    var reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.preview_list.push(e.target.result);
+                    }
+                    this.image_list.push(input.files[index]);
+                    reader.readAsDataURL(input.files[index]);
+                    index ++;
+                }
+            }
+        },
+        reset() {
+            this.image_list = [];
+            this.preview_list = [];
         },
         addAnswer () {
             const answer = {
@@ -171,21 +177,15 @@ export default defineComponent({
                 return false;
             }
             let data = new FormData();
-            var imagefile = document.querySelector('#file');
-            console.log(imagefile.files[0]);
-            data.append('file', imagefile.files[0]);
+            let filesLength=document.getElementById('file').files.length;
+            for(var i=0;i<filesLength;i++){
+                data.append("file[]", document.getElementById('file').files[i]);
+            }
             data.append('name', this.name);
             data.append('condition', this.condition);
             data.append('theme_id', this.theme);
             data.append('answers', JSON.stringify(this.answers));
             data.append('csrfToken', document.getElementsByName('csrf-token')[0].getAttribute('content'));
-            // let data = {
-            //     name: this.name,
-            //     condition:this.condition ,
-            //     theme_id:this.theme,
-            //     answers: this.answers,
-            //     csrfToken : document.getElementsByName('csrf-token')[0].getAttribute('content'),
-            // };
 
             axios.post('/task/create', data, {
                 headers: {
@@ -193,7 +193,7 @@ export default defineComponent({
                 }
             }).then(response=>{
                     console.log("add new task");
-                    //this.themes = response.data;
+                window.location.href = "/mytasks";
                 })
                 .catch(error =>{
                     console.log(error);
