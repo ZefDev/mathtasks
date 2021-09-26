@@ -13,7 +13,7 @@
                 <td>{{ task.name }}</td>
 
                 <td>
-                    <a :href="`/mytasks/${task.id}/edit`" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <a :href="`/mytasks/${task.id}/view`" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         View
                     </a>
                     <a :href="`/mytasks/${task.id}/edit`" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">

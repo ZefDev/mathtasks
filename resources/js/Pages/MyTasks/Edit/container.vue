@@ -36,7 +36,7 @@
                                 <div class="md:col-span-2">
                                     <label for="theme">Theme</label>
                                     <select v-model="theme" name="theme" id="theme" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50">
-                                        <option v-for="item in themes" v-bind:value="item.name">
+                                        <option v-for="item in themes" v-bind:value="item.id">
                                             {{ item.name }}
                                         </option>
                                     </select>
@@ -45,7 +45,7 @@
                                 <div class="md:col-span-5">
                                     <!--                                    <answer v-model="answers" :answers="answers"></answer>-->
                                     <div v-for="(answer,index) in answers" :key="index">
-                                        <input @keyup="updateAnswer(index,$event.target.value)" :value="answer.answer" type="text" name="answer{{index}}" id="answer{{index}}" class="h-10 border mt-1 rounded px-4 w-3/4 bg-gray-50" >
+                                        <input @keyup="updateAnswer(index,$event.target.value)" :value="answer.answer" type="text" name="answer{{index}}" id="answer{{index}}" class="h-10 border mt-1 rounded px-4 w-11/12 bg-gray-50" >
                                         <button @click="deleteAnswer(answer.id,index)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">X</button>
                                     </div>
                                     <br>
@@ -54,8 +54,8 @@
                                  <div class="md:col-span-5">
                                     <!--                                    <answer v-model="answers" :answers="answers"></answer>-->
                                     <div v-for="(image,index) in images" :key="index" class="flex justify-center mt-8" >
-                                         <div >
-                                            <img :src="image.link" alt=""  max-width="300" max-height="400">
+                                         <div>
+                                            <img :src="image.link" alt="" max-width="300" max-height="400" class="w-11/12">
                                             <button @click="deleteImage(image.id,index)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">X</button>
                                         </div>
                                     </div>
@@ -192,7 +192,7 @@ export default defineComponent({
                     this.condition = response.data.task.condition;
                     this.answers = response.data.task.answers;
                     this.images = response.data.task.images;
-                    this.theme =  response.data.task.theme.name;
+                    this.theme =  response.data.task.theme.id;
                     console.log(response.data.task);
                 })
                 .catch(error =>{

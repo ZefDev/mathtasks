@@ -15,7 +15,7 @@ class TaskController extends Controller
     public function tasks(){
         return Task::select()->where([
             ['user_id', '=', Auth::user()->id]
-        ])->orderBy('id', 'ASC')->get();
+        ])->orderBy('id', 'DESC')->get();
     }
 
     public function create(Request $reguest){
@@ -80,10 +80,10 @@ class TaskController extends Controller
     }
 
     public function getTaskCurrentUser(){
-//        return Task::select()->where([
-//            ['user_id', '=', Auth::user()->id]
-//        ])->orderBy('id', 'ASC')->get();
-        return Auth::user()->tasks;
+        return Task::select()->where([
+            ['user_id', '=', Auth::user()->id]
+        ])->orderBy('id', 'DESC')->get();
+        //return Auth::user()->tasks->orderBy('id', 'DESC');
     }
     public function delete($id){
         return Task::find($id)->delete();
