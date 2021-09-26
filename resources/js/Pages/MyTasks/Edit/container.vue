@@ -227,9 +227,9 @@ export default defineComponent({
             }).then(response=>{
                 window.location.href = "/mytasks";
             })
-                .catch(error =>{
-                    console.log(error);
-                });
+            .catch(error =>{
+                console.log(error);
+            });
         }
     },
     created() {

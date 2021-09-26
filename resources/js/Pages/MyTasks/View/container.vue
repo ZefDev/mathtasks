@@ -47,12 +47,22 @@
                                     </div>
                                  </div>
 
-                                <div class="md:col-span-5">
+                                <div v-show="!taskDone" class="md:col-span-5">
                                     <label for="answer">Answer</label>
-                                    <input v-bind="answer" id="answer" type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" >
+                                    <input v-model="answer" id="answer" type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" >
                                 </div>
 
-                                <div class="md:col-span-5 text-right">
+                                <div v-show="taskDone" class="bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role="alert">
+                                    <p class="font-bold">Informational message</p>
+                                    <p class="text-sm">Done.</p>
+                                </div>
+
+                                <div v-show="taskFail" class="bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3" role="alert">
+                                    <p class="font-bold">Informational message</p>
+                                    <p class="text-sm">Answer wrong.</p>
+                                </div>
+
+                                <div v-show="!taskDone" class="md:col-span-5 text-right">
                                     <div class="inline-flex items-end">
                                         <button @click="sendAnswer" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send answer</button>
                                     </div>
@@ -93,12 +103,34 @@ export default defineComponent({
             condition:'',
             name:'',
             answer:'',
+            taskFail:false,
+            taskDone:false,
             id:0,
         }
     },
     methods:{
         sendAnswer(){
-
+            console.log(this.answer);
+            if (!this.answer) {
+                return false;
+            }
+            let data = {
+                task_id : this.id,
+                answer : this.answer,
+                csrfToken : document.getElementsByName('csrf-token')[0].getAttribute('content')
+            }
+            axios.post('/solving/create', data).then(response=>{
+                this.reset();
+                if (response.data.is_task_solved){
+                    this.taskDone = true;
+                }else {
+                    this.taskFail = true;
+                }
+                //window.location.href = "/mytasks";
+            })
+            .catch(error =>{
+                console.log(error);
+            });
         },
         getTask(id){
             axios.get(`/task/${id}`)
@@ -107,12 +139,19 @@ export default defineComponent({
                     this.condition = response.data.task.condition;
                     this.images = response.data.task.images;
                     this.theme =  response.data.task.theme.name;
+                    if (response.data.is_task_solved){
+                        this.taskDone = true;
+                    }
                     console.log(response.data.task);
                 })
                 .catch(error =>{
                     console.log(error);
                 });
         },
+        reset(){
+            this.taskDone = false;
+            this.taskFail = false;
+        }
     },
     created() {
         this.id = window.location.pathname.split('/')[2];

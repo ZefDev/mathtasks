@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use App\Models\User;
+use App\Models\Solving;
 use App\Models\Task;
 use App\Models\Answer;
 use Illuminate\Http\Request;
@@ -90,22 +91,18 @@ class TaskController extends Controller
     }
     public function getById($id){
         $task = Task::find($id);
-
+        $is_task_solved = Solving::select()->where([
+            ['is_task_solved','=',1],
+            ['task_id','=',$id],
+            ['user_id','=',Auth::id()],
+        ])->count();
         return response()->json([
             'user' => $task->user,
             'task' => $task,
             'theme' => $task->theme,
             'answers' => $task->answers,
             'images' => $task->images,
+            'is_task_solved' => $is_task_solved,
         ]);
-//            array(
-//            'user' => $task->post,
-//            'task' => $task,
-//            'theme' => $task->theme,
-//        );
-//        return Task::select()->where([
-//            ['user_id', '=', Auth::user()->id],
-//            ['id', '=', $id]
-//        ])->get();
     }
 }

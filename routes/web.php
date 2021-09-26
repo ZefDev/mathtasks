@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\SolvingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,3 +70,5 @@ Route::get('/task/{id}', [TaskController::class, 'getById']);
 Route::get('/theme', [ThemeController::class, 'themes']);
 
 Route::get('/image/delete/{id}', [ImageController::class, 'delete']);
+
+Route::post('/solving/create', [SolvingController::class, 'create']);
