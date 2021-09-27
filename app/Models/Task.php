@@ -13,11 +13,11 @@ class Task extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class); //'user_id', 'id'
     }
 
     public function theme(){
-        return $this->belongsTo(Theme::class, 'theme_id', 'id');
+        return $this->belongsTo(Theme::class); //,'user_id', 'id'
     }
 
     public function images() {
@@ -31,10 +31,10 @@ class Task extends Model
 //    {
 //        return $this->belongsTo(Answer::class,'task_id','id');
 //    }
-
     public function comments() {
-        return $this->hasMany('App\Models\Comment', 'id', 'task_id');
+        return $this->hasMany(Comment::class );//'App\Models\Comment', 'task_id', 'id'
     }
+
     public function raitings() {
         return $this->hasMany('App\Models\Raiting', 'id', 'answer_id');
     }

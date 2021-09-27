@@ -9,10 +9,15 @@ class Comment extends Model
 {
     use HasFactory;
 
+    //protected $with = ['user'];
+
     public function task(){
-        return $this->hasOne('App\Models\Task','id','task_id');
+        return $this->belongsTo(Task::class);
     }
     public function user(){
-        return $this->hasOne('App\Models\User','id','user_id');
+        return $this->belongsTo(User::class);
+    }
+    public function likes() {
+        return $this->hasMany(Like::class );//'App\Models\Comment', 'task_id', 'id'
     }
 }

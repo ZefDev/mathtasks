@@ -10,6 +10,6 @@ class Theme extends Model
     use HasFactory;
 
     public function tasks(){
-        return $this->hasMany('App\Models\Task', 'theme_id', 'id');
+        return $this->hasMany(Task::class);
     }
 }

@@ -20954,12 +20954,47 @@ __webpack_require__.r(__webpack_exports__);
       answer: '',
       taskFail: false,
       taskDone: false,
-      id: 0
+      id: 0,
+      comment: '',
+      comments: []
     };
   },
   methods: {
-    sendAnswer: function sendAnswer() {
+    sendLike: function sendLike(id) {
       var _this = this;
+
+      var data = {
+        comment_id: id,
+        csrfToken: document.getElementsByName('csrf-token')[0].getAttribute('content')
+      };
+      axios.post('/like', data).then(function (response) {
+        _this.getComments(_this.id);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    sendComment: function sendComment() {
+      var _this2 = this;
+
+      if (!this.comment) {
+        return false;
+      }
+
+      var data = {
+        task_id: this.id,
+        text: this.comment,
+        csrfToken: document.getElementsByName('csrf-token')[0].getAttribute('content')
+      };
+      axios.post('/comment/create', data).then(function (response) {
+        _this2.comment = "";
+
+        _this2.getComments(_this2.id);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    sendAnswer: function sendAnswer() {
+      var _this3 = this;
 
       console.log(this.answer);
 
@@ -20973,12 +21008,12 @@ __webpack_require__.r(__webpack_exports__);
         csrfToken: document.getElementsByName('csrf-token')[0].getAttribute('content')
       };
       axios.post('/solving/create', data).then(function (response) {
-        _this.reset();
+        _this3.reset();
 
         if (response.data.is_task_solved) {
-          _this.taskDone = true;
+          _this3.taskDone = true;
         } else {
-          _this.taskFail = true;
+          _this3.taskFail = true;
         } //window.location.href = "/mytasks";
 
       })["catch"](function (error) {
@@ -20986,19 +21021,29 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getTask: function getTask(id) {
-      var _this2 = this;
+      var _this4 = this;
 
       axios.get("/task/".concat(id)).then(function (response) {
-        _this2.name = response.data.task.name;
-        _this2.condition = response.data.task.condition;
-        _this2.images = response.data.task.images;
-        _this2.theme = response.data.task.theme.name;
+        _this4.name = response.data.task.name;
+        _this4.condition = response.data.task.condition;
+        _this4.images = response.data.task.images;
+        _this4.theme = response.data.task.theme.name; //this.comments =  response.data.task.comments;
 
         if (response.data.is_task_solved) {
-          _this2.taskDone = true;
+          _this4.taskDone = true;
         }
 
-        console.log(response.data.task);
+        console.log(response.data);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getComments: function getComments(id) {
+      var _this5 = this;
+
+      axios.get("/comments/".concat(id)).then(function (response) {
+        _this5.comments = response.data.comments;
+        console.log(response.data);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -21011,6 +21056,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.id = window.location.pathname.split('/')[2];
     this.getTask(window.location.pathname.split('/')[2]);
+    this.getComments(window.location.pathname.split('/')[2]);
   }
 }));
 
@@ -25896,6 +25942,10 @@ var _hoisted_28 = {
 var _hoisted_29 = {
   "class": "inline-flex items-end"
 };
+var _hoisted_30 = {
+  "class": "md:col-span-5"
+};
+var _hoisted_31 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_app_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("app-layout");
 
@@ -25977,7 +26027,41 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       }, "Send answer")])], 512
       /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.taskDone]])])])])])])])];
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.taskDone]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.comments, function (comment, index) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+          key: index,
+          "class": "flex justify-left mt-8"
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "ID #" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(comment.user.name), 1
+        /* TEXT */
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(comment.text), 1
+        /* TEXT */
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+          onClick: function onClick($event) {
+            return _ctx.sendLike(comment.id);
+          },
+          "class": "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        }, "Like " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(comment.likes.length), 9
+        /* TEXT, PROPS */
+        , _hoisted_31)])]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+          return _ctx.comment = $event;
+        }),
+        rows: "5",
+        type: "text",
+        name: "comment",
+        id: "comment",
+        "class": "h-30 border mt-1 rounded px-4 w-full bg-gray-50"
+      }, null, 512
+      /* NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.comment]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        onClick: _cache[6] || (_cache[6] = function () {
+          return _ctx.sendComment && _ctx.sendComment.apply(_ctx, arguments);
+        }),
+        "class": "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      }, "Send comment")])])])])])])])];
     }),
     _: 1
     /* STABLE */

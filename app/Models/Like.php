@@ -9,10 +9,10 @@ class Like extends Model
 {
     use HasFactory;
 
-//    public function task(){
-//        return $this->hasOne('App\Models\Task','id','task_id');
-//    }
+    public function comment(){
+        return $this->belongsTo(Comment::class);
+    }
     public function user(){
-        return $this->hasOne('App\Models\User','id','user_id');
+        return $this->belongsTo(User::class);
     }
 }

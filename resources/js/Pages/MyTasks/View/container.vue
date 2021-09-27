@@ -68,6 +68,18 @@
                                     </div>
                                 </div>
 
+                                <div class="md:col-span-5">
+                                    <div v-for="(comment,index) in comments" :key="index" class="flex justify-left mt-8" >
+                                        <div>
+                                            <p>ID #{{comment.user.name}}</p>
+                                            <p>{{comment.text}}</p>
+                                            <button @click="sendLike(comment.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Like {{comment.likes.length}}</button>
+                                        </div>
+                                    </div>
+
+                                    <textarea v-model="comment" rows="5" type="text" name="comment" id="comment" class="h-30 border mt-1 rounded px-4 w-full bg-gray-50"/>
+                                    <button @click="sendComment" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send comment</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -106,9 +118,40 @@ export default defineComponent({
             taskFail:false,
             taskDone:false,
             id:0,
+            comment:'',
+            comments:[]
         }
     },
     methods:{
+        sendLike(id){
+            let data = {
+                comment_id : id,
+                csrfToken : document.getElementsByName('csrf-token')[0].getAttribute('content')
+            }
+            axios.post('/like', data).then(response=>{
+                this.getComments(this.id);
+            })
+            .catch(error =>{
+                console.log(error);
+            });
+        },
+        sendComment(){
+            if (!this.comment) {
+                return false;
+            }
+            let data = {
+                task_id : this.id,
+                text : this.comment,
+                csrfToken : document.getElementsByName('csrf-token')[0].getAttribute('content')
+            }
+            axios.post('/comment/create', data).then(response=>{
+                this.comment = "";
+                this.getComments(this.id);
+            })
+            .catch(error =>{
+                console.log(error);
+            });
+        },
         sendAnswer(){
             console.log(this.answer);
             if (!this.answer) {
@@ -139,10 +182,21 @@ export default defineComponent({
                     this.condition = response.data.task.condition;
                     this.images = response.data.task.images;
                     this.theme =  response.data.task.theme.name;
+                    //this.comments =  response.data.task.comments;
                     if (response.data.is_task_solved){
                         this.taskDone = true;
                     }
-                    console.log(response.data.task);
+                    console.log(response.data);
+                })
+                .catch(error =>{
+                    console.log(error);
+                });
+        },
+        getComments(id){
+            axios.get(`/comments/${id}`)
+                .then(response=>{
+                    this.comments =  response.data.comments;
+                    console.log(response.data);
                 })
                 .catch(error =>{
                     console.log(error);
@@ -156,6 +210,7 @@ export default defineComponent({
     created() {
         this.id = window.location.pathname.split('/')[2];
         this.getTask(window.location.pathname.split('/')[2]);
+        this.getComments(window.location.pathname.split('/')[2]);
     }
 })
 </script>

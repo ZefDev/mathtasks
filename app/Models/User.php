@@ -63,7 +63,10 @@ class User extends Authenticatable
     ];
 
     public function tasks() {
-        return $this->hasMany('App\Models\Task', 'user_id', 'id');
+        return $this->hasMany(Task::class);//'user_id', 'id'
+    }
+    public function comments() {
+        return $this->hasMany(Comment::class );//'user_id', 'id'
     }
 
 }

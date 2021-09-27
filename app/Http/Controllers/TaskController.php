@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Image;
+use App\Models\Like;
 use App\Models\User;
 use App\Models\Solving;
 use App\Models\Task;
@@ -90,18 +92,21 @@ class TaskController extends Controller
         return Task::find($id)->delete();
     }
     public function getById($id){
-        $task = Task::find($id);
+        $task = Task::with('user','theme','answers','images')->find($id);//,'images','answers','theme','user'
         $is_task_solved = Solving::select()->where([
             ['is_task_solved','=',1],
             ['task_id','=',$id],
             ['user_id','=',Auth::id()],
         ])->count();
+        //die();
+        //$task->comments()->with('user');
         return response()->json([
-            'user' => $task->user,
+           // 'user' => $task->user,
             'task' => $task,
-            'theme' => $task->theme,
-            'answers' => $task->answers,
-            'images' => $task->images,
+           // 'theme' => $task->theme,
+           // 'answers' => $task->answers,
+           // 'images' => $task->images,
+            //'comments' => $task->comments->with('user'),
             'is_task_solved' => $is_task_solved,
         ]);
     }
@@ -118,5 +123,38 @@ class TaskController extends Controller
             'created'=>$created,
             'solved'=>$solved
         );
+    }
+
+    public function createComment(Request $request){
+        $comment = new Comment;
+        $comment->task_id= $request->input('task_id');
+        $comment->text=$request->input('text');
+        $comment->user_id = Auth::id();
+        return $comment->save();
+    }
+    public function getComments($idTask){
+        $comments = Comment::with('user','likes')->where([
+            ['task_id','=',$idTask],
+        ])->get();
+        return response()->json([
+            'comments' => $comments,
+        ]);
+    }
+
+    public function like(Request $request){
+        $like= Like::select()->where([
+            ['comment_id','=',$request->input('comment_id')],
+            ['user_id', '=', Auth::user()->id]
+        ])->first();
+        if ($like){
+            Like::destroy($like->id);
+        }else{
+            $like = new Like;
+            $like->comment_id = $request->input('comment_id');
+            $like->user_id = Auth::user()->id;
+            $like->type_like = true;
+            $like->save();
+        }
+        return true;
     }
 }
