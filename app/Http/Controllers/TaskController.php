@@ -105,4 +105,18 @@ class TaskController extends Controller
             'is_task_solved' => $is_task_solved,
         ]);
     }
+
+    public function getUserAchievements(){
+        $solved = Solving::select()->where([
+            ['user_id', '=', Auth::user()->id],
+            ['is_task_solved', '=', 1],
+        ])->count();
+        $created = Task::select()->where([
+            ['user_id', '=', Auth::user()->id]
+        ])->count();
+        return array(
+            'created'=>$created,
+            'solved'=>$solved
+        );
+    }
 }
