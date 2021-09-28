@@ -36,11 +36,7 @@ class Task extends Model
     }
 
     public function raitings() {
-        return $this->hasMany('App\Models\Raiting', 'id', 'answer_id');
-    }
-    public function rating()
-    {
-        return $this->raitings()->avg("mark");
+        return $this->hasMany(Raiting::class);
     }
 
     public function tags()

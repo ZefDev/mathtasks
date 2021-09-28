@@ -9,10 +9,17 @@ class Raiting extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'task_id',
+        'user_id',
+        'mark',
+    ];
+
     public function task(){
-        return $this->hasOne('App\Models\Task','id','task_id');
+        return $this->belongsTo(Task::class);
     }
+
     public function user(){
-        return $this->hasOne('App\Models\User','id','user_id');
+        return $this->belongsTo(User::class);
     }
 }

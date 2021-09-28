@@ -1,5 +1,5 @@
 <template>
-    <div class="relative">
+    <div class="relative dark:bg-gray-800 dark:text-white">
         <div @click="open = ! open">
             <slot name="trigger"></slot>
         </div>
@@ -20,7 +20,7 @@
                     :class="[widthClass, alignmentClasses]"
                     style="display: none;"
                     @click="open = false">
-                <div class="rounded-md ring-1 ring-black ring-opacity-5" :class="contentClasses">
+                <div class="dark:bg-gray-800 dark:text-white rounded-md ring-1 ring-black ring-opacity-5" :class="contentClasses">
                     <slot name="content"></slot>
                 </div>
             </div>

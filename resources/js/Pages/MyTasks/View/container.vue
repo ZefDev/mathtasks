@@ -1,18 +1,24 @@
 <template>
     <app-layout title="Dashboard">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="dark:bg-gray-800 dark:text-white font-semibold text-xl text-gray-800 leading-tight">
                 Edit task
             </h2>
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-                    <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-                        <div class="text-gray-600">
-                            <p class="font-medium text-lg">Personal Details</p>
-                            <p>Please fill out all the fields.</p>
+            <div class="dark:bg-gray-800 dark:text-white max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="dark:bg-gray-800 dark:text-white bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+                    <div class="dark:bg-gray-800 dark:text-white grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                        <div class="dark:bg-gray-800 dark:text-white text-gray-600">
+                            <p class="font-medium text-lg">Rating</p>
+                            <p>Avarage rating the task {{avgrating}}</p>
+
+                            <div class="flex">
+                                <button type="button" v-for="i in 5" :class="{ 'mr-1': i < 5 }" @click="setRaiting(i)">
+                                    <svg class="block h-8 w-8" :class="[ this.rating >= i ? 'text-yellow': 'text-grey']" :fill="[ this.rating >= i ? 'yellow': 'grey']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="lg:col-span-2">
@@ -20,22 +26,22 @@
 
                                 <div class="md:col-span-5">
                                     <label for="name">Name</label>
-                                    <input readonly v-model="name" type="text" name="name" id="name" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" >
+                                    <input readonly v-model="name" type="text" name="name" id="name" class="dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50" >
                                 </div>
 
                                 <div class="md:col-span-5">
                                     <label for="condition">Condition</label>
-                                    <textarea readonly v-model="condition" rows="10" type="text" name="condition" id="condition" class="h-30 border mt-1 rounded px-4 w-full bg-gray-50"/>
+                                    <textarea readonly v-model="condition" rows="10" type="text" name="condition" id="condition" class="dark:bg-gray-800 dark:text-white h-30 border mt-1 rounded px-4 w-full bg-gray-50"/>
                                 </div>
 
                                 <div class="md:col-span-3">
                                     <label for="tags">Tags</label>
-                                    <input readonly type="text" name="tags" id="tags" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" >
+                                    <input readonly type="text" name="tags" id="tags" class="dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50" >
                                 </div>
 
                                 <div class="md:col-span-2">
                                     <label for="theme">Theme</label>
-                                    <input v-model="theme" readonly type="text" name="theme" id="theme" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50">
+                                    <input v-model="theme" readonly type="text" name="theme" id="theme" class="dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50">
 
                                 </div>
 
@@ -49,7 +55,7 @@
                                 <div class="md:col-span-5">
                                     <div v-show="!taskDone">
                                         <label for="answer">Answer</label>
-                                        <input v-model="answer" id="answer" type="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" >
+                                        <input v-model="answer" id="answer" type="text" class="dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50" >
                                     </div>
 
                                     <div v-show="taskDone" class="bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role="alert">
@@ -77,7 +83,7 @@
                                             <button @click="sendLike(comment.id,false)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">DisLike {{comment.dislike.length}}</button>
                                         </div>
                                     </div>
-                                    <textarea v-model="comment" rows="5" type="text" name="comment" id="comment" class="h-30 border mt-1 rounded px-4 w-full bg-gray-50"/>
+                                    <textarea v-model="comment" rows="5" type="text" name="comment" id="comment" class="dark:bg-gray-800 dark:text-white h-30 border mt-1 rounded px-4 w-full bg-gray-50"/>
                                     <div class="flex justify-end">
                                         <button @click="sendComment" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send comment</button>
                                     </div>
@@ -121,10 +127,27 @@ export default defineComponent({
             taskDone:false,
             id:0,
             comment:'',
-            comments:[]
+            comments:[],
+            rating: 0,
+            ratings: [],
+            avgrating: '',
         }
     },
     methods:{
+        setRaiting(i){
+            this.rating=i;
+            let data = {
+                task_id : this.id,
+                mark : this.rating,
+                csrfToken : document.getElementsByName('csrf-token')[0].getAttribute('content')
+            }
+            axios.post('/raiting', data).then(response=>{
+                console.log(response.data);
+            })
+            .catch(error =>{
+                console.log(error);
+            });
+        },
         sendLike(id,type_like){
             let data = {
                 comment_id : id,
@@ -181,15 +204,18 @@ export default defineComponent({
         getTask(id){
             axios.get(`/task/${id}`)
                 .then(response=>{
+                    console.log(response.data);
+                    this.avgrating = response.data.avgrating;
                     this.name = response.data.task.name;
                     this.condition = response.data.task.condition;
                     this.images = response.data.task.images;
                     this.theme =  response.data.task.theme.name;
+                    this.rating = response.data.rating;
                     //this.comments =  response.data.task.comments;
                     if (response.data.is_task_solved){
                         this.taskDone = true;
                     }
-                    console.log(response.data);
+
                 })
                 .catch(error =>{
                     console.log(error);

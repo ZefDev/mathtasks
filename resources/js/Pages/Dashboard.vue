@@ -1,7 +1,7 @@
 <template>
     <app-layout title="Dashboard">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight dark:bg-gray-800 dark:text-white" >
                 Dashboard
             </h2>
         </template>

@@ -1,5 +1,5 @@
 <template>
-    <table class="table-fixed m-2">
+    <table class="table-fixed m-2 dark:bg-gray-800 dark:text-white">
         <thead>
         <tr>
             <th class="w-1/7 ...">ID</th>

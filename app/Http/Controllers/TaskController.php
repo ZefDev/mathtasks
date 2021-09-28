@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Image;
 use App\Models\Like;
+use App\Models\Raiting;
 use App\Models\User;
 use App\Models\Solving;
 use App\Models\Task;
@@ -92,21 +93,21 @@ class TaskController extends Controller
         return Task::find($id)->delete();
     }
     public function getById($id){
-        $task = Task::with('user','theme','answers','images')->find($id);//,'images','answers','theme','user'
+        $task = Task::with('user','theme','answers','images','raitings')->find($id);//,'images','answers','theme','user'
         $is_task_solved = Solving::select()->where([
             ['is_task_solved','=',1],
             ['task_id','=',$id],
             ['user_id','=',Auth::id()],
         ])->count();
-        //die();
-        //$task->comments()->with('user');
+        $rating = Raiting::select()->where([
+            ['task_id','=',$id],
+            ['user_id','=',Auth::id()],
+        ])->first();
+
         return response()->json([
-           // 'user' => $task->user,
             'task' => $task,
-           // 'theme' => $task->theme,
-           // 'answers' => $task->answers,
-           // 'images' => $task->images,
-            //'comments' => $task->comments->with('user'),
+            'avgrating' =>bcdiv($task->raitings->avg('mark'), 1, 2),
+            'rating' => $rating->mark,
             'is_task_solved' => $is_task_solved,
         ]);
     }
@@ -162,5 +163,20 @@ class TaskController extends Controller
             ]);
         }
         return true;
+    }
+
+    public function setRaiting(Request $request){
+        $rait = Raiting::updateOrCreate([
+            //Add unique field combo to match here
+            //For example, perhaps you only want one entry per user:
+            ['task_id','=',$request->input('task_id')],
+            ['user_id', '=', Auth::user()->id]
+        ],[
+            'task_id'     => $request->input('task_id'),
+            'user_id' => Auth::user()->id,
+            'mark'    => $request->input('mark'),
+        ]);
+
+        return $rait;
     }
 }

@@ -75,5 +75,6 @@ Route::get('/image/delete/{id}', [ImageController::class, 'delete']);
 Route::post('/solving/create', [SolvingController::class, 'create']);
 Route::post('/comment/create', [TaskController::class, 'createComment']);
 Route::post('/like', [TaskController::class, 'like']);
+Route::post('/raiting', [TaskController::class, 'setRaiting']);
 
 Route::get('/comments/{id}', [TaskController::class, 'getComments']);
