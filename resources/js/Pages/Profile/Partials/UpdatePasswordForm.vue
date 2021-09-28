@@ -4,7 +4,7 @@
             Update Password
         </template>
 
-        <template #description>
+        <template #description class="dark:bg-gray-800 dark:text-white">
             Ensure your account is using a long, random password to stay secure.
         </template>
 

@@ -116,6 +116,10 @@
                                             Profile
                                         </jet-dropdown-link>
 
+                                        <jet-dropdown-link as="button" @click="switchTheme">
+                                            Switch theme
+                                        </jet-dropdown-link>
+
                                         <jet-dropdown-link :href="route('api-tokens.index')" v-if="$page.props.jetstream.hasApiFeatures">
                                             API Tokens
                                         </jet-dropdown-link>
@@ -176,7 +180,9 @@
                             <jet-responsive-nav-link :href="route('profile.show')" :active="route().current('profile.show')">
                                 Profile
                             </jet-responsive-nav-link>
-
+                            <jet-responsive-nav-link @click="switchTheme" as="button">
+                                Switch theme
+                            </jet-responsive-nav-link>
                             <jet-responsive-nav-link :href="route('api-tokens.index')" :active="route().current('api-tokens.index')" v-if="$page.props.jetstream.hasApiFeatures">
                                 API Tokens
                             </jet-responsive-nav-link>
@@ -287,6 +293,24 @@
             logout() {
                 this.$inertia.post(route('logout'));
             },
+            switchTheme(){
+                if(localStorage.getItem('theme')=="white"){
+                    localStorage.setItem('theme', 'dark');
+                }
+                else {
+                    localStorage.setItem('theme', 'white');
+                }
+                document.getElementById('htmldoc').className = localStorage.getItem('theme');
+            }
+        },
+        created(){
+
+            if(localStorage.getItem('theme')===null){
+                localStorage.setItem('theme', 'white');
+            }
+            else {
+                document.getElementById('htmldoc').className = localStorage.getItem('theme');
+            }
         }
     })
 </script>
