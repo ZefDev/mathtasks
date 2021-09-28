@@ -73,7 +73,8 @@
                                         <div>
                                             <p>ID #{{comment.user.name}}</p>
                                             <p>{{comment.text}}</p>
-                                            <button @click="sendLike(comment.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Like {{comment.likes.length}}</button>
+                                            <button @click="sendLike(comment.id,true)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Like {{comment.like.length}}</button>
+                                            <button @click="sendLike(comment.id,false)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">DisLike {{comment.dislike.length}}</button>
                                         </div>
                                     </div>
 
@@ -123,9 +124,10 @@ export default defineComponent({
         }
     },
     methods:{
-        sendLike(id){
+        sendLike(id,type_like){
             let data = {
                 comment_id : id,
+                type_like : type_like,
                 csrfToken : document.getElementsByName('csrf-token')[0].getAttribute('content')
             }
             axios.post('/like', data).then(response=>{

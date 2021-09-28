@@ -20960,11 +20960,12 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    sendLike: function sendLike(id) {
+    sendLike: function sendLike(id, type_like) {
       var _this = this;
 
       var data = {
         comment_id: id,
+        type_like: type_like,
         csrfToken: document.getElementsByName('csrf-token')[0].getAttribute('content')
       };
       axios.post('/like', data).then(function (response) {
@@ -25946,6 +25947,7 @@ var _hoisted_30 = {
   "class": "md:col-span-5"
 };
 var _hoisted_31 = ["onClick"];
+var _hoisted_32 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_app_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("app-layout");
 
@@ -26037,12 +26039,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
           onClick: function onClick($event) {
-            return _ctx.sendLike(comment.id);
+            return _ctx.sendLike(comment.id, true);
           },
-          "class": "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        }, "Like " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(comment.likes.length), 9
+          "class": "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+        }, "Like " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(comment.like.length), 9
         /* TEXT, PROPS */
-        , _hoisted_31)])]);
+        , _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+          onClick: function onClick($event) {
+            return _ctx.sendLike(comment.id, false);
+          },
+          "class": "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        }, "DisLike " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(comment.dislike.length), 9
+        /* TEXT, PROPS */
+        , _hoisted_32)])]);
       }), 128
       /* KEYED_FRAGMENT */
       )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {

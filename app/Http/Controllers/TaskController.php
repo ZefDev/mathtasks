@@ -133,7 +133,7 @@ class TaskController extends Controller
         return $comment->save();
     }
     public function getComments($idTask){
-        $comments = Comment::with('user','likes')->where([
+        $comments = Comment::with('user','likes','dislike','like')->where([
             ['task_id','=',$idTask],
         ])->get();
         return response()->json([
@@ -146,14 +146,20 @@ class TaskController extends Controller
             ['comment_id','=',$request->input('comment_id')],
             ['user_id', '=', Auth::user()->id]
         ])->first();
-        if ($like){
+        if ($like && $like->type_like == $request->input('type_like')){
             Like::destroy($like->id);
-        }else{
-            $like = new Like;
-            $like->comment_id = $request->input('comment_id');
-            $like->user_id = Auth::user()->id;
-            $like->type_like = true;
-            $like->save();
+        }
+        else{
+            $like = Like::updateOrCreate([
+                //Add unique field combo to match here
+                //For example, perhaps you only want one entry per user:
+                ['comment_id','=',$request->input('comment_id')],
+                ['user_id', '=', Auth::user()->id]
+            ],[
+                'comment_id'     => $request->input('comment_id'),
+                'user_id' => Auth::user()->id,
+                'type_like'    => $request->input('type_like'),
+            ]);
         }
         return true;
     }

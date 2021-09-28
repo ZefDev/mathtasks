@@ -20,4 +20,14 @@ class Comment extends Model
     public function likes() {
         return $this->hasMany(Like::class );//'App\Models\Comment', 'task_id', 'id'
     }
+    public function like() {
+        return $this->likes()->where([
+            ['type_like','=',1],
+        ]);//'App\Models\Comment', 'task_id', 'id'
+    }
+    public function dislike() {
+        return $this->likes()->where([
+            ['type_like','=',0],
+        ]);//'App\Models\Comment', 'task_id', 'id'
+    }
 }
