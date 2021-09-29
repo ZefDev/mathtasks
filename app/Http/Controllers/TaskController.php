@@ -103,10 +103,10 @@ class TaskController extends Controller
             ['task_id','=',$id],
             ['user_id','=',Auth::id()],
         ])->first();
-
+        $avgrating = number_format((float)$task->raitings->avg('mark'), 2, '.', '');
         return response()->json([
             'task' => $task,
-            'avgrating' =>bcdiv($task->raitings->avg('mark'), 1, 2),
+            'avgrating' =>$avgrating,
             'rating' => $rating->mark,
             'is_task_solved' => $is_task_solved,
         ]);
