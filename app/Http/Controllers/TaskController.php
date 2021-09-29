@@ -103,11 +103,15 @@ class TaskController extends Controller
             ['task_id','=',$id],
             ['user_id','=',Auth::id()],
         ])->first();
+        $mark = 0;
+        if(isset($rating->mark)){
+            $mark = $rating->mark;
+        }
         $avgrating = number_format((float)$task->raitings->avg('mark'), 2, '.', '');
         return response()->json([
             'task' => $task,
             'avgrating' =>$avgrating,
-            'rating' => $rating->mark,
+            'rating' =>$mark,
             'is_task_solved' => $is_task_solved,
         ]);
     }
