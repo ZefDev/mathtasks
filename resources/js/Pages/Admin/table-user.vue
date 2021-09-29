@@ -3,12 +3,12 @@
         <thead>
         <tr>
             <th class="w-1/7 ...">ID</th>
-            <th class="w-1/5 ...">Name</th>
-            <th class="w-1/5 ...">Email</th>
-            <th class="w-1/6 ...">Admin</th>
-            <th class="w-1/6 ...">Blocked</th>
-            <th class="w-1/5 ...">Created At</th>
-            <th class="w-1/2 ...">Options</th>
+            <th class="w-1/5 ...">{{__('Name')}}</th>
+            <th class="w-1/5 ...">{{__('Email')}}</th>
+            <th class="w-1/6 ...">{{__('Admin title')}}</th>
+            <th class="w-1/6 ...">{{__('Blocked')}}</th>
+            <th class="w-1/5 ...">{{__('Created At')}}</th>
+            <th class="w-1/2 ...">{{__('Options')}}</th>
         </tr>
         </thead>
         <tbody>
@@ -25,7 +25,7 @@
                 <td>{{ user.created_at }}</td>
                 <td>
                     <button @click="deleteUser(user.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                        Delete
+                        {{__('Delete')}}
                     </button>
                 </td>
             </tr>

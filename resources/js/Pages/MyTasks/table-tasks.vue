@@ -3,8 +3,8 @@
         <thead>
         <tr>
             <th class="w-1/6 ...">ID</th>
-            <th class="w-1/2 ...">Name</th>
-            <th class="w-1/6 ...">Options</th>
+            <th class="w-1/2 ...">{{__('Name')}}</th>
+            <th class="w-1/6 ...">{{__('Options')}}</th>
         </tr>
         </thead>
         <tbody>

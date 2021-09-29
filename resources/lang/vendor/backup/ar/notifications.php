@@ -5,7 +5,7 @@ return [
     'exception_trace' => 'تتبع الإستثناء: :trace',
     'exception_message_title' => 'رسالة استثناء',
     'exception_trace_title' => 'تتبع الإستثناء',
-
+    "My Profile" => "صفحتي",
     'backup_failed_subject' => 'أخفق النسخ الاحتياطي لل :application_name',
     'backup_failed_body' => 'مهم: حدث خطأ أثناء النسخ الاحتياطي :application_name',
 

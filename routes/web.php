@@ -56,6 +56,12 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/{id}/view', funct
     return Inertia::render('MyTasks/View/container');
 })->name('task.view');
 
+Route::get('language/{language}', function ($language) {
+    Session()->put('locale', $language);
+
+    return redirect()->back();
+})->name('language');
+
 Route::get('/admin/users', [UserController::class, 'users']);
 Route::get('/admin/users/{id}/delete', [UserController::class, 'delete']);
 Route::get('/admin/users/{id}/set-block', [UserController::class, 'setBlock']);

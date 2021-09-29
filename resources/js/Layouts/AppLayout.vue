@@ -20,14 +20,17 @@
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex dark:bg-gray-800 dark:text-white">
                                 <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    {{__('Dashboard')}}
                                 </jet-nav-link>
                                 <jet-nav-link v-if="$page.props.user.isAdmin" :href="route('admin')" :active="route().current('admin')">
-                                    Admin
+                                    {{__('Admin')}}
                                 </jet-nav-link>
                                 <jet-nav-link :href="route('mytasks')" :active="route().current('mytasks')">
-                                    My tasks
+                                    {{__('My tasks')}}
                                 </jet-nav-link>
+                            </div>
+                            <div class="flex-shrink-0 flex items-center dark:bg-gray-800 dark:text-white">
+                                <language-selector></language-selector>
                             </div>
                         </div>
 
@@ -109,15 +112,15 @@
                                     <template #content class="dark:bg-gray-800 dark:text-white">
                                         <!-- Account Management -->
                                         <div class="block px-4 py-2 text-xs text-gray-400 dark:bg-gray-800 dark:text-white">
-                                            Manage Account
+                                            {{__('Manage Account')}}
                                         </div>
 
                                         <jet-dropdown-link :href="route('profile.show') ">
-                                            Profile
+                                            {{__('Profile')}}
                                         </jet-dropdown-link>
 
                                         <jet-dropdown-link as="button" @click="switchTheme">
-                                            Switch theme
+                                            {{__('Switch theme')}}
                                         </jet-dropdown-link>
 
                                         <jet-dropdown-link :href="route('api-tokens.index')" v-if="$page.props.jetstream.hasApiFeatures">
@@ -129,7 +132,7 @@
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <jet-dropdown-link as="button">
-                                                Log Out
+                                                {{__('Log Out')}}
                                             </jet-dropdown-link>
                                         </form>
                                     </template>
@@ -153,13 +156,13 @@
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden dark:bg-gray-800 dark:text-white">
                     <div class="pt-2 pb-3 space-y-1">
                         <jet-responsive-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                            {{__('Dashboard')}}
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link v-if="$page.props.user.isAdmin" :href="route('admin')" :active="route().current('admin')">
-                            Admin
+                            {{__('Admin')}}
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link :href="route('mytasks')" :active="route().current('mytasks')">
-                            My tasks
+                            {{__('My tasks')}}
                         </jet-responsive-nav-link>
                     </div>
 
@@ -190,7 +193,7 @@
                             <!-- Authentication -->
                             <form method="POST" @submit.prevent="logout">
                                 <jet-responsive-nav-link as="button">
-                                    Log Out
+                                    {{__('Log Out')}}
                                 </jet-responsive-nav-link>
                             </form>
 
@@ -258,6 +261,7 @@
     import JetNavLink from '@/Jetstream/NavLink.vue'
     import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue'
     import { Head, Link } from '@inertiajs/inertia-vue3';
+    import LanguageSelector from "../Shared/LanguageSelector";
 
     export default defineComponent({
         props: {
@@ -265,6 +269,7 @@
         },
 
         components: {
+            LanguageSelector,
             Head,
             JetApplicationMark,
             JetBanner,

@@ -1,0 +1,20 @@
+{
+    "Dashboard": "Главная",
+    "Admin": "Админка",
+    "My tasks": "Мои задачи",
+    "Manage Account": "Управление аккаунтом",
+    "Profile": "Профиль",
+    "Switch theme": "Изменить тему",
+    "Log Out": "Выйти",
+    "Name": "Имя",
+    "Email": "Почта",
+    "Admin title": "Администратор",
+    "Blocked": "Заблокирован",
+    "Created At": "Дата регистрации",
+    "Options": "Опции",
+    "Delete": "Удалить",
+    "Personal achievements": "Персональные достижения",
+    "Number of tasks solved": "Количество решённых задач",
+    "Number of tasks created": "Количество созданных задач",
+    "New": "Создать"
+}
