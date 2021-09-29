@@ -2,7 +2,7 @@
     <app-layout title="Dashboard">
         <template #header>
             <h2 class="dark:bg-gray-800 dark:text-white font-semibold text-xl text-gray-800 leading-tight">
-                Edit task
+
             </h2>
         </template>
 
@@ -11,8 +11,8 @@
                 <div class="dark:bg-gray-800 dark:text-white bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
                     <div class="dark:bg-gray-800 dark:text-white grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                         <div class="dark:bg-gray-800 dark:text-white text-gray-600">
-                            <p class="font-medium text-lg">Rating</p>
-                            <p>Avarage rating the task {{avgrating}}</p>
+                            <p class="font-medium text-lg">{{__('Rating')}}</p>
+                            <p>{{__('Avarage rating the task')}} {{avgrating}}</p>
 
                             <div class="flex">
                                 <button type="button" v-for="i in 5" :class="{ 'mr-1': i < 5 }" @click="setRaiting(i)">
@@ -25,22 +25,22 @@
                             <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
 
                                 <div class="md:col-span-5">
-                                    <label for="name">Name</label>
+                                    <label for="name">{{__('Name')}}</label>
                                     <input readonly v-model="name" type="text" name="name" id="name" class="dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50" >
                                 </div>
 
                                 <div class="md:col-span-5">
-                                    <label for="condition">Condition</label>
+                                    <label for="condition">{{__('Condition')}}</label>
                                     <textarea readonly v-model="condition" rows="10" type="text" name="condition" id="condition" class="dark:bg-gray-800 dark:text-white h-30 border mt-1 rounded px-4 w-full bg-gray-50"/>
                                 </div>
 
                                 <div class="md:col-span-3">
-                                    <label for="tags">Tags</label>
+                                    <label for="tags">{{__('Tags')}}</label>
                                     <input readonly type="text" name="tags" id="tags" class="dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50" >
                                 </div>
 
                                 <div class="md:col-span-2">
-                                    <label for="theme">Theme</label>
+                                    <label for="theme">{{__('Theme')}}</label>
                                     <input v-model="theme" readonly type="text" name="theme" id="theme" class="dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50">
 
                                 </div>
@@ -54,23 +54,23 @@
                                  </div>
                                 <div class="md:col-span-5">
                                     <div v-show="!taskDone">
-                                        <label for="answer">Answer</label>
+                                        <label for="answer">{{__('Answer')}}</label>
                                         <input v-model="answer" id="answer" type="text" class="dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50" >
                                     </div>
 
                                     <div v-show="taskDone" class="bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role="alert">
-                                        <p class="font-bold">Informational message</p>
-                                        <p class="text-sm">Done.</p>
+                                        <p class="font-bold">{{__('Informational message')}}</p>
+                                        <p class="text-sm">{{__('Done')}}</p>
                                     </div>
 
                                     <div v-show="taskFail" class="bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3" role="alert">
-                                        <p class="font-bold">Informational message</p>
-                                        <p class="text-sm">Answer wrong.</p>
+                                        <p class="font-bold">{{__('Informational message')}}</p>
+                                        <p class="text-sm">{{__('Answer wrong')}}</p>
                                     </div>
 
                                     <div v-show="!taskDone" class="flex justify-end mt-2" >
                                         <div>
-                                            <button @click="sendAnswer" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send answer</button>
+                                            <button @click="sendAnswer" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{{__('Send answer')}}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -79,13 +79,13 @@
                                         <div>
                                             <p>ID #{{comment.user.name}}</p>
                                             <p>{{comment.text}}</p>
-                                            <button @click="sendLike(comment.id,true)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Like {{comment.like.length}}</button>
-                                            <button @click="sendLike(comment.id,false)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">DisLike {{comment.dislike.length}}</button>
+                                            <button @click="sendLike(comment.id,true)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">{{__('Like')}} {{comment.like.length}}</button>
+                                            <button @click="sendLike(comment.id,false)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">{{__('DisLike')}} {{comment.dislike.length}}</button>
                                         </div>
                                     </div>
                                     <textarea v-model="comment" rows="5" type="text" name="comment" id="comment" class="dark:bg-gray-800 dark:text-white h-30 border mt-1 rounded px-4 w-full bg-gray-50"/>
                                     <div class="flex justify-end">
-                                        <button @click="sendComment" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send comment</button>
+                                        <button @click="sendComment" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{{__('Send comment')}}</button>
                                     </div>
                                 </div>
                             </div>
