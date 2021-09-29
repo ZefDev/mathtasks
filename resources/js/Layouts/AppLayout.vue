@@ -29,12 +29,10 @@
                                     {{__('My tasks')}}
                                 </jet-nav-link>
                             </div>
-                            <div class="flex-shrink-0 flex items-center dark:bg-gray-800 dark:text-white">
-                                <language-selector></language-selector>
-                            </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6 dark:bg-gray-800 dark:text-white">
+                            <language-selector></language-selector>
                             <div class="ml-3 relative dark:bg-gray-800 dark:text-white">
                                 <!-- Teams Dropdown -->
                                 <jet-dropdown align="right" width="60" v-if="$page.props.jetstream.hasTeamFeatures">
