@@ -36,7 +36,7 @@
                                 <div class="md:col-span-2">
                                     <label for="theme">{{__('Theme')}}</label>
                                     <select v-model="theme" name="theme" id="theme" class="dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50">
-                                        <option v-for="item in themes" v-bind:value="item.name">
+                                        <option v-for="item in themes" v-bind:value="item.id">
                                             {{ item.name }}
                                         </option>
                                     </select>
@@ -192,8 +192,8 @@ export default defineComponent({
                     'Content-Type': 'multipart/form-data'
                 }
             }).then(response=>{
-                    console.log("add new task");
-                window.location.href = "/mytasks";
+                    console.log(response.data);
+                    window.location.href = "/mytasks";
                 })
                 .catch(error =>{
                     console.log(error);

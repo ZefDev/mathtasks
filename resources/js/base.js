@@ -4,8 +4,6 @@ module.exports = {
          * Translate the given key.
          */
         __(key, replace = {}) {
-            console.log(this.$page.props.language);
-            console.log(key);
             var translation = this.$page.props.language[key]
                 ? this.$page.props.language[key]
                 : key
