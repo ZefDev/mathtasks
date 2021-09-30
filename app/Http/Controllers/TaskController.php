@@ -13,6 +13,7 @@ use App\Models\Answer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class TaskController extends Controller
 {
@@ -20,6 +21,17 @@ class TaskController extends Controller
         return Task::select()->where([
             ['user_id', '=', Auth::user()->id]
         ])->orderBy('id', 'DESC')->get();
+    }
+
+    public function indexAllTasks(){
+        //$lastTask = Task::with()
+
+        $lastTask = Task::with('user','theme','raitings')
+            ->orderBy('id', 'DESC')
+            ->get();
+        return Inertia::render('AllTasks/AllTasks', [
+            'lastTask' => $lastTask,
+        ]);
     }
 
     public function create(Request $reguest){

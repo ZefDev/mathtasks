@@ -36,6 +36,8 @@ Route::get('login/{provider}/callback', [SocialController::class, 'Callback']);
 
 Route::middleware(['auth:sanctum', 'verified'])
     ->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])
+    ->get('/alltasks', [TaskController::class, 'indexAllTasks'])->name('alltasks');
 
 //Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //    return Inertia::render('Dashboard');

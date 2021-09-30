@@ -25,6 +25,9 @@
                                 <jet-nav-link v-if="$page.props.user.isAdmin" :href="route('admin')" :active="route().current('admin')">
                                     {{__('Admin')}}
                                 </jet-nav-link>
+                                <jet-nav-link :href="route('alltasks')" :active="route().current('alltasks')">
+                                    {{__('All tasks')}}
+                                </jet-nav-link>
                                 <jet-nav-link :href="route('mytasks')" :active="route().current('mytasks')">
                                     {{__('My tasks')}}
                                 </jet-nav-link>
@@ -158,6 +161,9 @@
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link v-if="$page.props.user.isAdmin" :href="route('admin')" :active="route().current('admin')">
                             {{__('Admin')}}
+                        </jet-responsive-nav-link>
+                        <jet-responsive-nav-link :href="route('alltasks')" :active="route().current('alltasks')">
+                            {{__('All tasks')}}
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link :href="route('mytasks')" :active="route().current('mytasks')">
                             {{__('My tasks')}}

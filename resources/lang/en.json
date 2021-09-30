@@ -52,8 +52,12 @@
     "New Task": "New Task",
     "Create": "Create",
 
+    "Last task": "Last task",
+    "High rating task": "High rating task",
+
     "Organizations": "Organizations",
     "Contacts": "Contacts",
     "Reports": "Reports",
-    "error": "error"
+    "error": "error",
+    "All tasks": "All tasks"
 }
