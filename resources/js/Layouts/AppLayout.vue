@@ -9,7 +9,7 @@
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 dark:bg-gray-800 dark:text-white">
                     <div class="flex justify-between h-16 dark:bg-gray-800 dark:text-white">
-                        <div class="flex dark:bg-gray-800 dark:text-white">
+                        <div class="flex dark:bg-gray-800 border-b dark:text-white">
                             <!-- Logo -->
                             <div class="flex-shrink-0 flex items-center dark:bg-gray-800 dark:text-white">
                                 <Link :href="route('dashboard')">

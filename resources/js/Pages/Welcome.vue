@@ -34,7 +34,7 @@
                                  src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80" alt="photo">
                             <div>
                                 <p class="text-xl text-gray-700 font-normal mb-1">Dany Bailey</p>
-                                <p class="text-base text-blue-600 font-normal">Software Engineer</p>
+                                <p class="text-base text-gray-900  font-normal">Software Engineer</p>
                             </div>
                         </div>
                         <div>
@@ -47,7 +47,7 @@
                                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80" alt="photo">
                             <div>
                                 <p class="text-xl text-gray-700 font-normal mb-1">Lucy Carter</p>
-                                <p class="text-base text-blue-600 font-normal">Graphic Designer</p>
+                                <p class="text-base text-gray-900 font-normal">Graphic Designer</p>
                             </div>
                         </div>
                         <div>
@@ -60,7 +60,7 @@
                                  src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1176&q=80" alt="photo">
                             <div>
                                 <p class="text-xl text-gray-700 font-normal mb-1">Jade Bradley</p>
-                                <p class="text-base text-blue-600 font-normal">Dev Ops</p>
+                                <p class="text-base text-gray-900 font-normal">Dev Ops</p>
                             </div>
                         </div>
                         <div>
@@ -73,7 +73,7 @@
                                  src="https://images.unsplash.com/photo-1632715434689-b936361f5789?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=464&q=80" alt="photo">
                             <div>
                                 <p class="text-xl text-gray-700 font-normal mb-1">Jack Carter</p>
-                                <p class="text-base text-blue-600 font-normal">Graphic Designer</p>
+                                <p class="text-base text-gray-900 font-normal">Graphic Designer</p>
                             </div>
                         </div>
                         <div>
@@ -86,7 +86,7 @@
                                  src="https://images.unsplash.com/photo-1606081461437-108abe922780?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80" alt="photo">
                             <div>
                                 <p class="text-xl text-gray-700 font-normal mb-1">Elisa Gram</p>
-                                <p class="text-base text-blue-600 font-normal">Software Engineer</p>
+                                <p class="text-base text-gray-900 font-normal">Software Engineer</p>
                             </div>
                         </div>
                         <div>
@@ -99,7 +99,7 @@
                                  src="https://images.unsplash.com/photo-1484186139897-d5fc6b908812?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=580&q=80" alt="photo">
                             <div>
                                 <p class="text-xl text-gray-700 font-normal mb-1">Rose Brown</p>
-                                <p class="text-base text-blue-600 font-normal">Dev Ops</p>
+                                <p class="text-base text-gray-900 font-normal">Dev Ops</p>
                             </div>
                         </div>
                         <div>
