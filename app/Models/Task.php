@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Task extends Model
 {
@@ -37,6 +38,12 @@ class Task extends Model
 
     public function raitings() {
         return $this->hasMany(Raiting::class);
+    }
+
+    public function avgRaitings() {
+        return $this->hasMany(Raiting::class)
+            ->select('*', DB::raw('AVG(mark) AS avg_rating'))
+            ->get();
     }
 
     public function tags()

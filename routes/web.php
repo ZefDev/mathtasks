@@ -9,6 +9,7 @@ use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SolvingController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,12 +30,16 @@ Route::get('/', function () {
     ]);
 });
 
+
 Route::get('login/{provider}', [SocialController::class, 'redirect']);
 Route::get('login/{provider}/callback', [SocialController::class, 'Callback']);
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])
+    ->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+//Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+//    return Inertia::render('Dashboard');
+//})->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/admin', function () {
     return Inertia::render('Admin/container');
