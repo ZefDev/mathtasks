@@ -17,17 +17,19 @@
                         </div>
                         <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div v-for="task in lastTask" :key="task.id" class="bg-white rounded-lg p-6">
-                                <div class="flex items-center space-x-6 mb-4">
-                                    <img class="h-28 w-28 object-cover object-center rounded-full"
-                                         :src="task.user.profile_photo_path" alt="photo">
-                                    <div>
-                                        <p class="text-xl text-gray-700 font-normal mb-1">{{task.user.name}}</p>
-                                        <p class="text-base text-blue-600 font-normal">{{task.theme.name}}</p>
+                                <a :href="`/mytasks/${task.id}/view`">
+                                    <div class="flex items-center space-x-6 mb-4">
+                                        <img class="h-28 w-28 object-cover object-center rounded-full"
+                                             :src="task.user.profile_photo_path" alt="photo">
+                                        <div>
+                                            <p class="text-xl text-gray-700 font-normal mb-1">{{task.user.name}}</p>
+                                            <p class="text-base text-blue-600 font-normal">{{task.theme.name}}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <p class="text-gray-400 leading-loose font-normal text-base">{{task.condition.substring(0,255)+".."}}</p>
-                                </div>
+                                    <div>
+                                        <p class="text-gray-400 leading-loose font-normal text-base">{{task.condition.substring(0,255)+".."}}</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
 
@@ -38,17 +40,19 @@
                         </div>
                         <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div v-for="task in topTask" :key="task.id" class="bg-white rounded-lg p-6">
-                                <div class="flex items-center space-x-6 mb-4">
-                                    <img class="h-28 w-28 object-cover object-center rounded-full"
-                                         :src="task.user.profile_photo_path" alt="photo">
-                                    <div>
-                                        <p class="text-xl text-gray-700 font-normal mb-1">{{task.user.name}}</p>
-                                        <p class="text-base text-blue-600 font-normal">{{task.theme.name}}</p>
+                                <a :href="`/mytasks/${task.id}/view`">
+                                    <div class="flex items-center space-x-6 mb-4">
+                                        <img class="h-28 w-28 object-cover object-center rounded-full"
+                                             :src="task.user.profile_photo_path" alt="photo">
+                                        <div>
+                                            <p class="text-xl text-gray-700 font-normal mb-1">{{task.user.name}}</p>
+                                            <p class="text-base text-blue-600 font-normal">{{task.theme.name}}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <p class="text-gray-400 leading-loose font-normal text-base">{{task.condition.substring(0,255)+".."}}</p>
-                                </div>
+                                    <div>
+                                        <p class="text-gray-400 leading-loose font-normal text-base">{{task.condition.substring(0,255)+".."}}</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </section>
