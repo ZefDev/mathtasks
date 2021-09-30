@@ -12,7 +12,7 @@
                     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
                         <div class="w-full text-center pb-8">
                             <h1 class="dark:text-white font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-gray-900 pb-2">
-                                {{__('All task')}}
+                                {{__('All tasks')}}
                             </h1>
                         </div>
                         <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
