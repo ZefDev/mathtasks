@@ -26,6 +26,9 @@ export default defineComponent({
         AppLayout,
         TableUser,
     },
+    props: {
+        users: Array,
+    },
     data: function (){
         return{
             users:[]

@@ -43,9 +43,13 @@ Route::middleware(['auth:sanctum', 'verified'])
 //    return Inertia::render('Dashboard');
 //})->name('dashboard');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/admin', function () {
-    return Inertia::render('Admin/container');
-})->name('admin');
+Route::middleware(['auth:sanctum', 'verified'])->get('/admin',
+    [UserController::class, 'index']
+)->name('admin');
+
+//Route::middleware(['auth:sanctum', 'verified'])->get('/admin', function () {
+//    return Inertia::render('Admin/container');
+//})->name('admin');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks', function () {
     return Inertia::render('MyTasks/container');

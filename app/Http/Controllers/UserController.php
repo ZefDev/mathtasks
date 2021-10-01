@@ -8,9 +8,10 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function index(){
+        $user = User::select()->orderBy('id', 'ASC')->get();
 
         return Inertia::render('Admin/container',[
-            'test2' => 'testroutes',
+            'users' => $user,
         ]);
     }
 
@@ -20,6 +21,8 @@ class UserController extends Controller
 
     public function delete($id){
         $user = User::find($id);
+        $user->tasks()->delete();
+        $user->comments()->delete();
         return $user->delete();
     }
 

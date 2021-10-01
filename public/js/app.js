@@ -20059,6 +20059,9 @@ __webpack_require__.r(__webpack_exports__);
     AppLayout: _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     TableUser: _table_user_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
+  props: {
+    users: Array
+  },
   data: function data() {
     return {
       users: []
