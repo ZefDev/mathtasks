@@ -13,6 +13,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\AnswerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,7 +33,6 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
 
 Route::get('login/{provider}', [SocialController::class, 'redirect']);
 Route::get('login/{provider}/callback', [SocialController::class, 'Callback']);
@@ -80,7 +80,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/{id}/view',
 
 Route::get('language/{language}', function ($language) {
     Session()->put('locale', $language);
-
     return redirect()->back();
 })->name('language');
 
@@ -91,16 +90,18 @@ Route::get('/admin/users/{id}/set-block', [UserController::class, 'setBlock']);
 Route::get('/admin/users/{id}/set-admin', [UserController::class, 'setAdmin']);
 
 Route::get('/admin/tasks', [TaskController::class, 'tasks']);
-Route::get('/task/task-current-user', [TaskController::class, 'getTaskCurrentUser']);
+//Route::get('/task/task-current-user', [TaskController::class, 'getTaskCurrentUser']);
 //Route::get('/task/achievements-user', [TaskController::class, 'getUserAchievements']);
 Route::post('/task/create', [TaskController::class, 'create']);
 Route::post('/task/update/{id}', [TaskController::class, 'update']);
 Route::get('/task/delete/{id}', [TaskController::class, 'delete']);
-Route::get('/task/{id}', [TaskController::class, 'getById']);
+
 
 Route::get('/theme', [ThemeController::class, 'themes']);
 
 Route::get('/image/delete/{id}', [ImageController::class, 'delete']);
+
+Route::get('/answer/delete/{id}', [AnswerController::class, 'delete']);
 
 Route::post('/solving/create', [SolvingController::class, 'create']);
 

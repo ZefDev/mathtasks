@@ -175,29 +175,14 @@ export default defineComponent({
             this.options.push(tag)
             this.value.push(tag)
         },
-        getTheme(){
-            axios.get('/theme')
-                .then(response=>{
-                    this.themes = response.data;
-                    this.theme = this.themes[0];
-                })
-                .catch(error =>{
-                    console.log(error);
-                });
-        },
-        getTask(id){
-            axios.get(`/task/${id}`)
-                .then(response=>{
-                    this.name = response.data.task.name;
-                    this.condition = response.data.task.condition;
-                    this.answers = response.data.task.answers;
-                    this.images = response.data.task.images;
-                    this.theme =  response.data.task.theme.id;
-                    console.log(response.data.task);
-                })
-                .catch(error =>{
-                    console.log(error);
-                });
+
+        getTask(tempTask){
+            this.id = tempTask.id;
+            this.name = tempTask.name;
+            this.condition = tempTask.condition;
+            this.answers = tempTask.answers;
+            this.images = tempTask.images;
+            this.theme =  tempTask.theme.id;
         },
         updateTask(id){
             if (!this.name) {
@@ -233,9 +218,8 @@ export default defineComponent({
         }
     },
     created() {
-        this.getTheme();
-        this.id = window.location.pathname.split('/')[2];
-        this.getTask(window.location.pathname.split('/')[2]);
+        this.themes = this.$page.props.themes;
+        this.getTask(this.$page.props.task);
     }
 })
 </script>

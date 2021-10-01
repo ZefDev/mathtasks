@@ -20735,29 +20735,13 @@ __webpack_require__.r(__webpack_exports__);
       this.options.push(tag);
       this.value.push(tag);
     },
-    getTheme: function getTheme() {
-      var _this3 = this;
-
-      axios.get('/theme').then(function (response) {
-        _this3.themes = response.data;
-        _this3.theme = _this3.themes[0];
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    getTask: function getTask(id) {
-      var _this4 = this;
-
-      axios.get("/task/".concat(id)).then(function (response) {
-        _this4.name = response.data.task.name;
-        _this4.condition = response.data.task.condition;
-        _this4.answers = response.data.task.answers;
-        _this4.images = response.data.task.images;
-        _this4.theme = response.data.task.theme.id;
-        console.log(response.data.task);
-      })["catch"](function (error) {
-        console.log(error);
-      });
+    getTask: function getTask(tempTask) {
+      this.id = tempTask.id;
+      this.name = tempTask.name;
+      this.condition = tempTask.condition;
+      this.answers = tempTask.answers;
+      this.images = tempTask.images;
+      this.theme = tempTask.theme.id;
     },
     updateTask: function updateTask(id) {
       if (!this.name) {
@@ -20793,9 +20777,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.getTheme();
-    this.id = window.location.pathname.split('/')[2];
-    this.getTask(window.location.pathname.split('/')[2]);
+    this.themes = this.$page.props.themes;
+    this.getTask(this.$page.props.task);
   }
 }));
 
