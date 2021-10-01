@@ -21175,11 +21175,13 @@ __webpack_require__.r(__webpack_exports__);
     JetResponsiveNavLink: _Jetstream_ResponsiveNavLink_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     TableTask: _table_tasks_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
+  props: {
+    created: 0,
+    solved: 0
+  },
   data: function data() {
     return {
-      tasks: [],
-      created: 0,
-      solved: 0
+      tasks: []
     };
   },
   methods: {
@@ -21191,22 +21193,10 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
-    },
-    getAchievements: function getAchievements() {
-      var _this2 = this;
-
-      axios.get('/task/achievements-user').then(function (response) {
-        console.log(response.data);
-        _this2.created = response.data.created;
-        _this2.solved = response.data.solved;
-      })["catch"](function (error) {
-        console.log(error);
-      });
     }
   },
   created: function created() {
     this.getTask();
-    this.getAchievements();
   }
 }));
 
@@ -26726,7 +26716,7 @@ var _hoisted_5 = {
   "class": "w-1/3 ..."
 };
 var _hoisted_6 = {
-  "class": "text-center"
+  "class": "text-center p-4"
 };
 var _hoisted_7 = {
   "class": "text-center"

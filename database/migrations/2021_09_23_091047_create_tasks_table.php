@@ -20,6 +20,10 @@ class CreateTasksTable extends Migration
             $table->integer("theme_id");
             $table->integer("tag_task_id")->nullable();
             $table->integer("user_id");
+//            $table->foreignId('user_id')
+//                ->constrained('users')
+//                ->onUpdate('cascade')
+//                ->onDelete('cascade');
             $table->timestamps();
         });
     }

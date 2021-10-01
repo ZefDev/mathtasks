@@ -39,11 +39,13 @@ export default defineComponent({
         JetResponsiveNavLink,
         TableTask,
     },
+    props: {
+        created: 0,
+        solved: 0,
+    },
     data: function (){
         return{
-            tasks:[],
-            created: 0,
-            solved: 0,
+             tasks:[],
         }
     },
     methods:{
@@ -56,21 +58,9 @@ export default defineComponent({
                     console.log(error);
                 });
         },
-        getAchievements(){
-            axios.get('/task/achievements-user')
-                .then(response=>{
-                    console.log(response.data);
-                    this.created = response.data.created;
-                    this.solved = response.data.solved;
-                })
-                .catch(error =>{
-                    console.log(error);
-                });
-        }
     },
     created() {
         this.getTask();
-        this.getAchievements();
     }
 })
 </script>

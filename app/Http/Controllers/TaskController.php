@@ -17,14 +17,8 @@ use Inertia\Inertia;
 
 class TaskController extends Controller
 {
-    public function tasks(){
-        return Task::select()->where([
-            ['user_id', '=', Auth::user()->id]
-        ])->orderBy('id', 'DESC')->get();
-    }
 
     public function indexAllTasks(){
-        //$lastTask = Task::with()
 
         $lastTask = Task::select()->with('user','theme')
             ->withAvg('raitings', 'mark')
@@ -34,6 +28,32 @@ class TaskController extends Controller
         return Inertia::render('AllTasks/AllTasks', [
             'lastTask' => $lastTask,
         ]);
+    }
+
+    public function indexMyTasks(){
+
+        $solved = Solving::select()->where([
+            ['user_id', '=', Auth::user()->id],
+            ['is_task_solved', '=', 1],
+        ])->count();
+
+        $created = Task::select()->where([
+            ['user_id', '=', Auth::user()->id]
+        ])->count();
+
+        return Inertia::render('MyTasks/container', [
+            'created'=>$created,
+            'solved'=>$solved
+        ]);
+    }
+    public function indexNewTask () {
+        return Inertia::render('MyTasks/New/container');
+    }
+    public function indexViewTasks($id){
+        return Inertia::render('MyTasks/View/container');
+    }
+    public function indexEditTask($id){
+        return Inertia::render('MyTasks/Edit/container');
     }
 
     public function create(Request $reguest){
@@ -97,6 +117,16 @@ class TaskController extends Controller
         return $task;
     }
 
+    public function delete($id){
+        return Task::find($id)->delete();
+    }
+
+    public function tasks(){
+        return Task::select()->where([
+            ['user_id', '=', Auth::user()->id]
+        ])->orderBy('id', 'DESC')->get();
+    }
+
     public function getTaskCurrentUser(){
         return Task::select()->where([
             ['user_id', '=', Auth::user()->id]
@@ -105,9 +135,7 @@ class TaskController extends Controller
             ->orderBy('id', 'DESC')->get();
         //return Auth::user()->tasks->orderBy('id', 'DESC');
     }
-    public function delete($id){
-        return Task::find($id)->delete();
-    }
+
     public function getById($id){
         $task = Task::with('user','theme','answers','images','raitings')->find($id);//,'images','answers','theme','user'
         $is_task_solved = Solving::select()->where([
@@ -132,71 +160,4 @@ class TaskController extends Controller
         ]);
     }
 
-    public function getUserAchievements(){
-        $solved = Solving::select()->where([
-            ['user_id', '=', Auth::user()->id],
-            ['is_task_solved', '=', 1],
-        ])->count();
-        $created = Task::select()->where([
-            ['user_id', '=', Auth::user()->id]
-        ])->count();
-        return array(
-            'created'=>$created,
-            'solved'=>$solved
-        );
-    }
-
-    public function createComment(Request $request){
-        $comment = new Comment;
-        $comment->task_id= $request->input('task_id');
-        $comment->text=$request->input('text');
-        $comment->user_id = Auth::id();
-        return $comment->save();
-    }
-    public function getComments($idTask){
-        $comments = Comment::with('user','likes','dislike','like')->where([
-            ['task_id','=',$idTask],
-        ])->get();
-        return response()->json([
-            'comments' => $comments,
-        ]);
-    }
-
-    public function like(Request $request){
-        $like= Like::select()->where([
-            ['comment_id','=',$request->input('comment_id')],
-            ['user_id', '=', Auth::user()->id]
-        ])->first();
-        if ($like && $like->type_like == $request->input('type_like')){
-            Like::destroy($like->id);
-        }
-        else{
-            $like = Like::updateOrCreate([
-                //Add unique field combo to match here
-                //For example, perhaps you only want one entry per user:
-                ['comment_id','=',$request->input('comment_id')],
-                ['user_id', '=', Auth::user()->id]
-            ],[
-                'comment_id'     => $request->input('comment_id'),
-                'user_id' => Auth::user()->id,
-                'type_like'    => $request->input('type_like'),
-            ]);
-        }
-        return true;
-    }
-
-    public function setRaiting(Request $request){
-        $rait = Raiting::updateOrCreate([
-            //Add unique field combo to match here
-            //For example, perhaps you only want one entry per user:
-            ['task_id','=',$request->input('task_id')],
-            ['user_id', '=', Auth::user()->id]
-        ],[
-            'task_id'     => $request->input('task_id'),
-            'user_id' => Auth::user()->id,
-            'mark'    => $request->input('mark'),
-        ]);
-
-        return $rait;
-    }
 }

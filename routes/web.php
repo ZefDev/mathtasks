@@ -10,6 +10,9 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\SolvingController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\RatingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,29 +42,33 @@ Route::middleware(['auth:sanctum', 'verified'])
 Route::middleware(['auth:sanctum', 'verified'])
     ->get('/alltasks', [TaskController::class, 'indexAllTasks'])->name('alltasks');
 
-//Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-//    return Inertia::render('Dashboard');
-//})->name('dashboard');
-
 Route::middleware(['auth:sanctum', 'verified'])->get('/admin',
     [UserController::class, 'index']
 )->name('admin');
 
-//Route::middleware(['auth:sanctum', 'verified'])->get('/admin', function () {
-//    return Inertia::render('Admin/container');
-//})->name('admin');
+Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks',
+    [TaskController::class, 'indexMyTasks']
+)->name('mytasks');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks', function () {
-    return Inertia::render('MyTasks/container');
-})->name('mytasks');
+Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/new',
+    [TaskController::class, 'indexNewTask']
+)->name('new.task');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/new', function () {
-    return Inertia::render('MyTasks/New/container');
-})->name('new.task');
+Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/{id}/edit',
+    [TaskController::class, 'indexEditTask']
+)->name('new.edit');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/{id}/edit', function () {
-    return Inertia::render('MyTasks/Edit/container');
-})->name('new.edit');
+//Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks', function () {
+//    return Inertia::render('MyTasks/container');
+//})->name('mytasks');
+
+//Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/new', function () {
+//    return Inertia::render('MyTasks/New/container');
+//})->name('new.task');
+
+//Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/{id}/edit', function () {
+//    return Inertia::render('MyTasks/Edit/container');
+//})->name('new.edit');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/{id}/view', function () {
     return Inertia::render('MyTasks/View/container');
@@ -73,6 +80,7 @@ Route::get('language/{language}', function ($language) {
     return redirect()->back();
 })->name('language');
 
+
 Route::get('/admin/users', [UserController::class, 'users']);
 Route::get('/admin/users/{id}/delete', [UserController::class, 'delete']);
 Route::get('/admin/users/{id}/set-block', [UserController::class, 'setBlock']);
@@ -80,18 +88,22 @@ Route::get('/admin/users/{id}/set-admin', [UserController::class, 'setAdmin']);
 
 Route::get('/admin/tasks', [TaskController::class, 'tasks']);
 Route::get('/task/task-current-user', [TaskController::class, 'getTaskCurrentUser']);
-Route::get('/task/achievements-user', [TaskController::class, 'getUserAchievements']);
+//Route::get('/task/achievements-user', [TaskController::class, 'getUserAchievements']);
 Route::post('/task/create', [TaskController::class, 'create']);
 Route::post('/task/update/{id}', [TaskController::class, 'update']);
 Route::get('/task/delete/{id}', [TaskController::class, 'delete']);
 Route::get('/task/{id}', [TaskController::class, 'getById']);
+
 Route::get('/theme', [ThemeController::class, 'themes']);
 
 Route::get('/image/delete/{id}', [ImageController::class, 'delete']);
 
 Route::post('/solving/create', [SolvingController::class, 'create']);
-Route::post('/comment/create', [TaskController::class, 'createComment']);
-Route::post('/like', [TaskController::class, 'like']);
-Route::post('/raiting', [TaskController::class, 'setRaiting']);
 
-Route::get('/comments/{id}', [TaskController::class, 'getComments']);
+Route::post('/comment/create', [CommentController::class, 'createComment']);
+Route::get('/comments/{id}', [CommentController::class, 'getComments']);
+
+Route::post('/like', [LikeController::class, 'like']);
+
+Route::post('/raiting', [RatingController::class, 'setRaiting']);
+

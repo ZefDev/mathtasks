@@ -10,7 +10,7 @@
         </thead>
         <tbody>
             <tr v-for="task in tasks" :key="task.id">
-                <td class="text-center">{{ task.id }}</td>
+                <td class="text-center p-4">{{ task.id }}</td>
                 <td class="text-center">{{ task.name }}</td>
                 <td class="text-center">{{task.raitings_avg_mark}}({{task.raitings_count}})</td>
                 <td class="text-center">
