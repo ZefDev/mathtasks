@@ -24,6 +24,7 @@
                                         <div>
                                             <p class="text-xl text-gray-700 font-normal mb-1">{{task.user.name}}</p>
                                             <p class="text-base text-blue-600 font-normal">{{task.theme.name}}</p>
+                                            <p class="text-base text-gray-700 font-normal">{{__('Rating')}}: {{task.raitings_avg_mark}}({{task.raitings_count}})</p>
                                         </div>
                                     </div>
                                     <div>
@@ -47,6 +48,7 @@
                                         <div>
                                             <p class="text-xl text-gray-700 font-normal mb-1">{{task.user.name}}</p>
                                             <p class="text-base text-blue-600 font-normal">{{task.theme.name}}</p>
+                                            <p class="text-base text-gray-700 font-normal">{{__('Rating')}}: {{task.raitings_avg_mark}}({{task.raitings_count}})</p>
                                         </div>
                                     </div>
                                     <div>

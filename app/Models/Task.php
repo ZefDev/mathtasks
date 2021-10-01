@@ -41,9 +41,7 @@ class Task extends Model
     }
 
     public function avgRaitings() {
-        return $this->hasMany(Raiting::class)
-            ->select('*', DB::raw('AVG(mark) AS avg_rating'))
-            ->get();
+        return $this->raitings()->avg('mark');
     }
 
     public function tags()

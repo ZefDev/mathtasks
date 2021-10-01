@@ -3,25 +3,26 @@
         <thead>
         <tr>
             <th class="w-1/6 ...">ID</th>
-            <th class="w-1/2 ...">{{__('Name')}}</th>
-            <th class="w-1/6 ...">{{__('Options')}}</th>
+            <th class="w-1/3 ...">{{__('Name')}}</th>
+            <th class="w-1/3 ...">{{__('Rating')}}</th>
+            <th class="w-1/3 ...">{{__('Options')}}</th>
         </tr>
         </thead>
         <tbody>
             <tr v-for="task in tasks" :key="task.id">
-                <td>{{ task.id }}</td>
-                <td>{{ task.name }}</td>
-
-                <td>
+                <td class="text-center">{{ task.id }}</td>
+                <td class="text-center">{{ task.name }}</td>
+                <td class="text-center">{{task.raitings_avg_mark}}({{task.raitings_count}})</td>
+                <td class="text-center">
                     <a :href="`/mytasks/${task.id}/view`" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         {{__('View')}}
                     </a>
                     <a :href="`/mytasks/${task.id}/edit`" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         {{__('Edit')}}
                     </a>
-                    <button @click="deleteTask(task.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    <a @click="deleteTask(task.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                         {{__('Delete')}}
-                    </button>
+                    </a>
                 </td>
             </tr>
         </tbody>

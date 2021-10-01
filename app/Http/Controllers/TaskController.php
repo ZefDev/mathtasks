@@ -26,7 +26,9 @@ class TaskController extends Controller
     public function indexAllTasks(){
         //$lastTask = Task::with()
 
-        $lastTask = Task::with('user','theme','raitings')
+        $lastTask = Task::select()->with('user','theme')
+            ->withAvg('raitings', 'mark')
+            ->withCount('raitings')
             ->orderBy('id', 'DESC')
             ->get();
         return Inertia::render('AllTasks/AllTasks', [
@@ -98,7 +100,9 @@ class TaskController extends Controller
     public function getTaskCurrentUser(){
         return Task::select()->where([
             ['user_id', '=', Auth::user()->id]
-        ])->orderBy('id', 'DESC')->get();
+        ])->withAvg('raitings','mark')
+            ->withCount('raitings')
+            ->orderBy('id', 'DESC')->get();
         //return Auth::user()->tasks->orderBy('id', 'DESC');
     }
     public function delete($id){

@@ -13,16 +13,19 @@
         </thead>
         <tbody>
             <tr v-for="user in users" :key="user.id">
-                <td>{{ user.id }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <td>
+                <td class="align-middle">{{ user.id }}</td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4 text-left flex items-center">
+                    <img class="h-14 w-14 object-cover object-center rounded-full" :src="user.profile_photo_path" alt="photo">
+                    <span class="ml-3"> {{ user.name }} </span>
+                </td>
+                <td class="text-center">{{ user.email }}</td>
+                <td class="text-center">
                     <input type="checkbox" :checked="user.isAdmin" @click="setAdmin(user.id)">
                 </td>
-                <td>
+                <td class="text-center">
                     <input type="checkbox" :checked="user.isBlock" @click="setBlock(user.id)">
                 </td>
-                <td>{{ user.created_at }}</td>
+                <td class="text-center">{{ user.created_at }}</td>
                 <td>
                     <button @click="deleteUser(user.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                         {{__('Delete')}}
