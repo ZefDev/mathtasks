@@ -27,7 +27,7 @@ export default defineComponent({
         TableUser,
     },
     props: {
-        users: Array,
+        //users: Array,
     },
     data: function (){
         return{
@@ -46,7 +46,8 @@ export default defineComponent({
         }
     },
     created() {
-        this.getUsers();
+        //this.getUsers();
+        this.users = this.$page.props.users;
     }
 })
 </script>

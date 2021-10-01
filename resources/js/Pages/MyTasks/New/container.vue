@@ -159,16 +159,16 @@ export default defineComponent({
             this.options.push(tag)
             this.value.push(tag)
         },
-        getTheme(){
-            axios.get('/theme')
-                .then(response=>{
-                    this.themes = response.data;
-                    this.theme = this.themes[0];
-                })
-                .catch(error =>{
-                    console.log(error);
-                });
-        },
+        // getTheme(){
+        //     axios.get('/theme')
+        //         .then(response=>{
+        //             this.themes = response.data;
+        //             this.theme = this.themes[0];
+        //         })
+        //         .catch(error =>{
+        //             console.log(error);
+        //         });
+        // },
         addTask(){
             if (!this.name) {
                 return false;
@@ -201,7 +201,8 @@ export default defineComponent({
         }
     },
     created() {
-        this.getTheme();
+        this.themes = this.$page.props.themes;
+        this.theme = this.themes[0];
     }
 })
 </script>

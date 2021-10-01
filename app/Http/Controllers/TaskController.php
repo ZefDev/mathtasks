@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Image;
 use App\Models\Like;
 use App\Models\Raiting;
+use App\Models\Theme;
 use App\Models\User;
 use App\Models\Solving;
 use App\Models\Task;
@@ -41,16 +42,47 @@ class TaskController extends Controller
             ['user_id', '=', Auth::user()->id]
         ])->count();
 
+        $tasks = Task::select()->where([
+            ['user_id', '=', Auth::user()->id]
+        ])->withAvg('raitings','mark')
+            ->withCount('raitings')
+            ->orderBy('id', 'DESC')->get();
+
         return Inertia::render('MyTasks/container', [
             'created'=>$created,
-            'solved'=>$solved
+            'solved'=>$solved,
+            'tasks'=>$tasks
         ]);
     }
     public function indexNewTask () {
-        return Inertia::render('MyTasks/New/container');
+        $themes = Theme::all();
+        return Inertia::render('MyTasks/New/container', [
+            'themes'=>$themes,
+        ]);
     }
-    public function indexViewTasks($id){
-        return Inertia::render('MyTasks/View/container');
+    public function indexViewTask($id){
+        $task = Task::with('user','theme','answers','images','raitings')->find($id);//,'images','answers','theme','user'
+        $is_task_solved = Solving::select()->where([
+            ['is_task_solved','=',1],
+            ['task_id','=',$id],
+            ['user_id','=',Auth::id()],
+        ])->count();
+        $rating = Raiting::select()->where([
+            ['task_id','=',$id],
+            ['user_id','=',Auth::id()],
+        ])->first();
+        $mark = 0;
+        if(isset($rating->mark)){
+            $mark = $rating->mark;
+        }
+        $avgrating = number_format((float)$task->raitings->avg('mark'), 2, '.', '');
+
+        return Inertia::render('MyTasks/View/container', [
+                'task' => $task,
+                'avgrating' =>$avgrating,
+                'rating' =>$mark,
+                'is_task_solved' => $is_task_solved,
+            ]);
     }
     public function indexEditTask($id){
         return Inertia::render('MyTasks/Edit/container');

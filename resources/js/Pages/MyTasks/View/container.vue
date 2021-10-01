@@ -26,12 +26,12 @@
 
                                 <div class="md:col-span-5">
                                     <label for="name">{{__('Name')}}</label>
-                                    <input readonly v-model="name" type="text" name="name" id="name" class="dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50" >
+                                    <input readonly v-model="task.name" type="text" name="name" id="name" class="dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50" >
                                 </div>
 
                                 <div class="md:col-span-5">
                                     <label for="condition">{{__('Condition')}}</label>
-                                    <textarea readonly v-model="condition" rows="10" type="text" name="condition" id="condition" class="dark:bg-gray-800 dark:text-white h-30 border mt-1 rounded px-4 w-full bg-gray-50"/>
+                                    <textarea readonly v-model="task.condition" rows="10" type="text" name="condition" id="condition" class="dark:bg-gray-800 dark:text-white h-30 border mt-1 rounded px-4 w-full bg-gray-50"/>
                                 </div>
 
                                 <div class="md:col-span-3">
@@ -41,12 +41,12 @@
 
                                 <div class="md:col-span-2">
                                     <label for="theme">{{__('Theme')}}</label>
-                                    <input v-model="theme" readonly type="text" name="theme" id="theme" class="dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50">
+                                    <input v-model="task.theme.name" readonly type="text" name="theme" id="theme" class="dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50">
 
                                 </div>
 
                                  <div class="md:col-span-5">
-                                    <div v-for="(image,index) in images" :key="index" class="flex justify-center mt-8" >
+                                    <div v-for="(image,index) in task.images" :key="index" class="flex justify-center mt-8" >
                                          <div>
                                             <img :src="image.link" alt="" max-width="300" max-height="400" class="w-11/12">
                                         </div>
@@ -115,34 +115,31 @@ export default defineComponent({
         JetInputError,
         JetLabel,
     },
+    props: {
+        task: Array,
+        avgrating: 0,
+    },
     data: function (){
         return{
-            themes:[],
-            images:[],
-            theme:'',
-            condition:'',
-            name:'',
             answer:'',
             taskFail:false,
             taskDone:false,
-            id:0,
             comment:'',
             comments:[],
             rating: 0,
             ratings: [],
-            avgrating: '',
         }
     },
     methods:{
         setRaiting(i){
             this.rating=i;
             let data = {
-                task_id : this.id,
+                task_id : this.task.id,
                 mark : this.rating,
                 csrfToken : document.getElementsByName('csrf-token')[0].getAttribute('content')
             }
             axios.post('/raiting', data).then(response=>{
-                console.log(response.data);
+
             })
             .catch(error =>{
                 console.log(error);
@@ -155,7 +152,7 @@ export default defineComponent({
                 csrfToken : document.getElementsByName('csrf-token')[0].getAttribute('content')
             }
             axios.post('/like', data).then(response=>{
-                this.getComments(this.id);
+                this.getComments(this.task.id);
             })
             .catch(error =>{
                 console.log(error);
@@ -166,13 +163,13 @@ export default defineComponent({
                 return false;
             }
             let data = {
-                task_id : this.id,
+                task_id : this.task.id,
                 text : this.comment,
                 csrfToken : document.getElementsByName('csrf-token')[0].getAttribute('content')
             }
             axios.post('/comment/create', data).then(response=>{
                 this.comment = "";
-                this.getComments(this.id);
+                this.getComments(this.task.id);
             })
             .catch(error =>{
                 console.log(error);
@@ -184,7 +181,7 @@ export default defineComponent({
                 return false;
             }
             let data = {
-                task_id : this.id,
+                task_id : this.task.id,
                 answer : this.answer,
                 csrfToken : document.getElementsByName('csrf-token')[0].getAttribute('content')
             }
@@ -195,37 +192,21 @@ export default defineComponent({
                 }else {
                     this.taskFail = true;
                 }
-                //window.location.href = "/mytasks";
             })
             .catch(error =>{
                 console.log(error);
             });
         },
-        getTask(id){
-            axios.get(`/task/${id}`)
-                .then(response=>{
-                    console.log(response.data);
-                    this.avgrating = response.data.avgrating;
-                    this.name = response.data.task.name;
-                    this.condition = response.data.task.condition;
-                    this.images = response.data.task.images;
-                    this.theme =  response.data.task.theme.name;
-                    this.rating = response.data.rating;
-                    //this.comments =  response.data.task.comments;
-                    if (response.data.is_task_solved){
-                        this.taskDone = true;
-                    }
-
-                })
-                .catch(error =>{
-                    console.log(error);
-                });
+        setSolved(){
+            this.rating = this.$page.props.rating;
+            if (this.$page.props.is_task_solved){
+                this.taskDone = true;
+            }
         },
         getComments(id){
             axios.get(`/comments/${id}`)
                 .then(response=>{
                     this.comments =  response.data.comments;
-                    console.log(response.data);
                 })
                 .catch(error =>{
                     console.log(error);
@@ -237,9 +218,8 @@ export default defineComponent({
         }
     },
     created() {
-        this.id = window.location.pathname.split('/')[2];
-        this.getTask(window.location.pathname.split('/')[2]);
-        this.getComments(window.location.pathname.split('/')[2]);
+         this.setSolved();
+         this.getComments(this.$page.props.task.id);
     }
 })
 </script>

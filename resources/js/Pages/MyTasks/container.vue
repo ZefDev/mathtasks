@@ -60,7 +60,7 @@ export default defineComponent({
         },
     },
     created() {
-        this.getTask();
+        this.tasks = this.$page.props.tasks;
     }
 })
 </script>

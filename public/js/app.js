@@ -20059,8 +20059,7 @@ __webpack_require__.r(__webpack_exports__);
     AppLayout: _Layouts_AppLayout_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     TableUser: _table_user_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  props: {
-    users: Array
+  props: {//users: Array,
   },
   data: function data() {
     return {
@@ -20079,7 +20078,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.getUsers();
+    //this.getUsers();
+    this.users = this.$page.props.users;
   }
 }));
 
@@ -20913,16 +20913,16 @@ __webpack_require__.r(__webpack_exports__);
       this.options.push(tag);
       this.value.push(tag);
     },
-    getTheme: function getTheme() {
-      var _this2 = this;
-
-      axios.get('/theme').then(function (response) {
-        _this2.themes = response.data;
-        _this2.theme = _this2.themes[0];
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
+    // getTheme(){
+    //     axios.get('/theme')
+    //         .then(response=>{
+    //             this.themes = response.data;
+    //             this.theme = this.themes[0];
+    //         })
+    //         .catch(error =>{
+    //             console.log(error);
+    //         });
+    // },
     addTask: function addTask() {
       if (!this.name) {
         return false;
@@ -20957,7 +20957,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.getTheme();
+    this.themes = this.$page.props.themes;
+    this.theme = this.themes[0];
   }
 }));
 
@@ -20996,35 +20997,30 @@ __webpack_require__.r(__webpack_exports__);
     JetInputError: _Jetstream_InputError_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
     JetLabel: _Jetstream_Label_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
+  props: {
+    task: Array,
+    avgrating: 0
+  },
   data: function data() {
     return {
-      themes: [],
-      images: [],
-      theme: '',
-      condition: '',
-      name: '',
       answer: '',
       taskFail: false,
       taskDone: false,
-      id: 0,
       comment: '',
       comments: [],
       rating: 0,
-      ratings: [],
-      avgrating: ''
+      ratings: []
     };
   },
   methods: {
     setRaiting: function setRaiting(i) {
       this.rating = i;
       var data = {
-        task_id: this.id,
+        task_id: this.task.id,
         mark: this.rating,
         csrfToken: document.getElementsByName('csrf-token')[0].getAttribute('content')
       };
-      axios.post('/raiting', data).then(function (response) {
-        console.log(response.data);
-      })["catch"](function (error) {
+      axios.post('/raiting', data).then(function (response) {})["catch"](function (error) {
         console.log(error);
       });
     },
@@ -21037,7 +21033,7 @@ __webpack_require__.r(__webpack_exports__);
         csrfToken: document.getElementsByName('csrf-token')[0].getAttribute('content')
       };
       axios.post('/like', data).then(function (response) {
-        _this.getComments(_this.id);
+        _this.getComments(_this.task.id);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -21050,14 +21046,14 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var data = {
-        task_id: this.id,
+        task_id: this.task.id,
         text: this.comment,
         csrfToken: document.getElementsByName('csrf-token')[0].getAttribute('content')
       };
       axios.post('/comment/create', data).then(function (response) {
         _this2.comment = "";
 
-        _this2.getComments(_this2.id);
+        _this2.getComments(_this2.task.id);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -21072,7 +21068,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var data = {
-        task_id: this.id,
+        task_id: this.task.id,
         answer: this.answer,
         csrfToken: document.getElementsByName('csrf-token')[0].getAttribute('content')
       };
@@ -21083,37 +21079,23 @@ __webpack_require__.r(__webpack_exports__);
           _this3.taskDone = true;
         } else {
           _this3.taskFail = true;
-        } //window.location.href = "/mytasks";
-
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    getTask: function getTask(id) {
-      var _this4 = this;
-
-      axios.get("/task/".concat(id)).then(function (response) {
-        console.log(response.data);
-        _this4.avgrating = response.data.avgrating;
-        _this4.name = response.data.task.name;
-        _this4.condition = response.data.task.condition;
-        _this4.images = response.data.task.images;
-        _this4.theme = response.data.task.theme.name;
-        _this4.rating = response.data.rating; //this.comments =  response.data.task.comments;
-
-        if (response.data.is_task_solved) {
-          _this4.taskDone = true;
         }
       })["catch"](function (error) {
         console.log(error);
       });
     },
+    setSolved: function setSolved() {
+      this.rating = this.$page.props.rating;
+
+      if (this.$page.props.is_task_solved) {
+        this.taskDone = true;
+      }
+    },
     getComments: function getComments(id) {
-      var _this5 = this;
+      var _this4 = this;
 
       axios.get("/comments/".concat(id)).then(function (response) {
-        _this5.comments = response.data.comments;
-        console.log(response.data);
+        _this4.comments = response.data.comments;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -21124,9 +21106,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.id = window.location.pathname.split('/')[2];
-    this.getTask(window.location.pathname.split('/')[2]);
-    this.getComments(window.location.pathname.split('/')[2]);
+    this.setSolved();
+    this.getComments(this.$page.props.task.id);
   }
 }));
 
@@ -21196,7 +21177,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.getTask();
+    this.tasks = this.$page.props.tasks;
   }
 }));
 
@@ -26411,7 +26392,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         readonly: "",
         "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.name = $event;
+          return _ctx.task.name = $event;
         }),
         type: "text",
         name: "name",
@@ -26419,12 +26400,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50"
       }, null, 512
       /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Condition')), 1
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.task.name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Condition')), 1
       /* TEXT */
       ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
         readonly: "",
         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-          return _ctx.condition = $event;
+          return _ctx.task.condition = $event;
         }),
         rows: "10",
         type: "text",
@@ -26433,13 +26414,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "dark:bg-gray-800 dark:text-white h-30 border mt-1 rounded px-4 w-full bg-gray-50"
       }, null, 512
       /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.condition]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Tags')), 1
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.task.condition]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Tags')), 1
       /* TEXT */
       ), _hoisted_21]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Theme')), 1
       /* TEXT */
       ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-          return _ctx.theme = $event;
+          return _ctx.task.theme.name = $event;
         }),
         readonly: "",
         type: "text",
@@ -26448,7 +26429,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "dark:bg-gray-800 dark:text-white h-10 border mt-1 rounded px-4 w-full bg-gray-50"
       }, null, 512
       /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.theme]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.images, function (image, index) {
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.task.theme.name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.task.images, function (image, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: index,
           "class": "flex justify-center mt-8"

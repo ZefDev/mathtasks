@@ -58,6 +58,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/{id}/edit',
     [TaskController::class, 'indexEditTask']
 )->name('new.edit');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/{id}/view',
+    [TaskController::class, 'indexViewTask']
+)->name('task.view');
+
 //Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks', function () {
 //    return Inertia::render('MyTasks/container');
 //})->name('mytasks');
@@ -70,9 +74,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/{id}/edit',
 //    return Inertia::render('MyTasks/Edit/container');
 //})->name('new.edit');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/{id}/view', function () {
-    return Inertia::render('MyTasks/View/container');
-})->name('task.view');
+//Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks/{id}/view', function () {
+//    return Inertia::render('MyTasks/View/container');
+//})->name('task.view');
 
 Route::get('language/{language}', function ($language) {
     Session()->put('locale', $language);

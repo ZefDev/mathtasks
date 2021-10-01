@@ -20,7 +20,7 @@ class SolvingController extends Controller
     }
 
     public function checkAnswer($task_id,$answerUser){
-        $answers =  Task::find($task_id)->answers()->where([['answer','=',$answerUser]])->count();
+        $answers = Task::find($task_id)->answers()->where([['answer','=',$answerUser]])->count();
         if (!empty($answers)){
             return true;
         }
