@@ -165,13 +165,4 @@ class TaskController extends Controller
         ])->orderBy('id', 'DESC')->get();
     }
 
-    public function getTaskCurrentUser(){
-        return Task::select()->where([
-            ['user_id', '=', Auth::user()->id]
-        ])->withAvg('raitings','mark')
-            ->withCount('raitings')
-            ->orderBy('id', 'DESC')->get();
-        //return Auth::user()->tasks->orderBy('id', 'DESC');
-    }
-
 }
