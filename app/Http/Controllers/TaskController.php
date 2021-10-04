@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
 use App\Models\Image;
-use App\Models\Like;
-use App\Models\Raiting;
-use App\Models\Theme;
-use App\Models\User;
-use App\Models\Solving;
 use App\Models\Task;
 use App\Models\Answer;
+use App\Services\TaskService;
+use App\Services\SolvingService;
+use App\Services\ThemeService;
+use App\Services\RatingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -18,14 +16,25 @@ use Inertia\Inertia;
 
 class TaskController extends Controller
 {
+    protected $taskService;
+    protected $solvingService;
+    protected $themeService;
 
+    /**
+     * @return mixed
+     */
+    public function __construct(TaskService $taskService,
+                                SolvingService $solvingService,
+                                ThemeService $themeService,
+                                RatingService $ratingService)
+    {
+        $this->taskService = $taskService;
+        $this->solvingService = $solvingService;
+        $this->themeService = $themeService;
+        $this->ratingService = $ratingService;
+    }
     public function indexAllTasks(){
-
-        $lastTask = Task::select()->with('user','theme')
-            ->withAvg('raitings', 'mark')
-            ->withCount('raitings')
-            ->orderBy('id', 'DESC')
-            ->get();
+        $lastTask = $this->taskService->getAll();
         return Inertia::render('AllTasks/AllTasks', [
             'lastTask' => $lastTask,
         ]);
@@ -33,20 +42,9 @@ class TaskController extends Controller
 
     public function indexMyTasks(){
 
-        $solved = Solving::select()->where([
-            ['user_id', '=', Auth::user()->id],
-            ['is_task_solved', '=', 1],
-        ])->count();
-
-        $created = Task::select()->where([
-            ['user_id', '=', Auth::user()->id]
-        ])->count();
-
-        $tasks = Task::select()->where([
-            ['user_id', '=', Auth::user()->id]
-        ])->withAvg('raitings','mark')
-            ->withCount('raitings')
-            ->orderBy('id', 'DESC')->get();
+        $solved = $this->solvingService->getCountSolvedTasks(Auth::user()->id);
+        $created = $this->taskService->getCountCreatedTasks(Auth::user()->id);
+        $tasks = $this->taskService->getAllCurentUser(Auth::user()->id);
 
         return Inertia::render('MyTasks/container', [
             'created'=>$created,
@@ -55,22 +53,16 @@ class TaskController extends Controller
         ]);
     }
     public function indexNewTask () {
-        $themes = Theme::all();
+        $themes = $this->themeService->getAll();
         return Inertia::render('MyTasks/New/container', [
             'themes'=>$themes,
         ]);
     }
     public function indexViewTask($id){
-        $task = Task::with('user','theme','answers','images','raitings')->find($id);//,'images','answers','theme','user'
-        $is_task_solved = Solving::select()->where([
-            ['is_task_solved','=',1],
-            ['task_id','=',$id],
-            ['user_id','=',Auth::id()],
-        ])->count();
-        $rating = Raiting::select()->where([
-            ['task_id','=',$id],
-            ['user_id','=',Auth::id()],
-        ])->first();
+        $task = $this->taskService->getTaskById($id);
+        $is_task_solved = $this->solvingService->getSolvingTask($id,Auth::id());
+        $rating = $this->ratingService->getRatingCurentTask($id,Auth::id());
+
         $mark = 0;
         if(isset($rating->mark)){
             $mark = $rating->mark;
@@ -85,8 +77,8 @@ class TaskController extends Controller
             ]);
     }
     public function indexEditTask($id){
-        $task = Task::with('user','theme','answers','images')->find($id);
-        $themes = Theme::all();
+        $task = $this->taskService->getTaskById($id);
+        $themes = $this->themeService->getAll();
 
         return Inertia::render('MyTasks/Edit/container',[
             'task' => $task,
