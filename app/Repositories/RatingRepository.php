@@ -19,4 +19,15 @@ class RatingRepository{
             ['user_id','=',$idUser],
         ])->first();
     }
+
+    public function save($data){
+        return $this->rating->updateOrCreate([
+            ['task_id','=',$data['task_id']],
+            ['user_id', '=', $data['user_id']]
+        ],[
+            'task_id'     => $data['task_id'],
+            'user_id' => $data['user_id'],
+            'mark'    => $data['mark'],
+        ]);
+    }
 }

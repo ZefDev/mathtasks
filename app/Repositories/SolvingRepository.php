@@ -27,4 +27,14 @@ class SolvingRepository{
             ['user_id','=',$userId],
         ])->count();
     }
+
+    public function save($data){
+        $solving = new $this->solving;
+        $solving->user_id = $data['user_id'];
+        $solving->answerUser = $data['answer'];
+        $solving->task_id = $data['task_id'];
+        $solving->is_task_solved = $data['is_task_solved'];
+        $solving->save();
+        return $solving;
+    }
 }

@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Theme;
+use App\Services\ThemeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ThemeController extends Controller
 {
+    protected $themeService;
+    public function __construct(ThemeService $themeService){
+        $this->themeService = $themeService;
+    }
     public function themes(){
-        return Theme::all();
+        return $this->themeService->getAll();
     }
 }

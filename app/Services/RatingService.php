@@ -24,5 +24,17 @@ class RatingService
        return $this->ratingRepository->getRatingCurentTaskByUserId($idTask,$idUser);
     }
 
+    public function saveRating($data){
+        $validator = Validator::make($data,[
+            'task_id'=>'required',
+            'user_id'=>'required',
+            'mark'=>'required'
+        ]);
+        if ($validator->fails()){
+            throw new InvalidArgumentException($validator->errors()->first());
+        }
+        return $this->ratingRepository->save($data);
+    }
+
 }
 

@@ -30,5 +30,43 @@ class TaskService{
     public function getTaskById($id){
         return $this->taskRepository->getTaskById($id);
     }
+
+    public function getLastTasks($limit){
+        return $this->taskRepository->getLastTasks($limit);
+    }
+
+    public function getTopTasks($limit){
+        return $this->taskRepository->getTopTasks($limit);
+    }
+
+    public function saveTask($data){
+        $validator = Validator::make($data,[
+            'theme_id'=>'required',
+            'name'=>'required',
+            'condition'=>'required',
+            'user_id'=>'required'
+        ]);
+        if ($validator->fails()){
+            throw new InvalidArgumentException($validator->errors()->first());
+        }
+        return $this->taskRepository->save($data);
+    }
+
+    public function updateTask($data, $id){
+        $validator = Validator::make($data,[
+            'theme_id'=>'required',
+            'name'=>'required',
+            'condition'=>'required',
+            'user_id'=>'required'
+        ]);
+        if ($validator->fails()){
+            throw new InvalidArgumentException($validator->errors()->first());
+        }
+        return $this->taskRepository->update($data,$id);
+    }
+
+    public function deleteTask($id){
+        return $this->taskRepository->delete($id);
+    }
 }
 

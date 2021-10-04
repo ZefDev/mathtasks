@@ -9,6 +9,8 @@ use App\Services\TaskService;
 use App\Services\SolvingService;
 use App\Services\ThemeService;
 use App\Services\RatingService;
+use App\Services\AnswerService;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +21,9 @@ class TaskController extends Controller
     protected $taskService;
     protected $solvingService;
     protected $themeService;
+    protected $ratingService;
+    protected $answerService;
+    protected $imageService;
 
     /**
      * @return mixed
@@ -26,12 +31,16 @@ class TaskController extends Controller
     public function __construct(TaskService $taskService,
                                 SolvingService $solvingService,
                                 ThemeService $themeService,
-                                RatingService $ratingService)
+                                RatingService $ratingService,
+                                AnswerService $answerService,
+                                ImageService $imageService)
     {
         $this->taskService = $taskService;
         $this->solvingService = $solvingService;
         $this->themeService = $themeService;
         $this->ratingService = $ratingService;
+        $this->answerService = $answerService;
+        $this->imageService = $imageService;
     }
     public function indexAllTasks(){
         $lastTask = $this->taskService->getAll();
@@ -87,74 +96,56 @@ class TaskController extends Controller
     }
 
     public function create(Request $reguest){
-        $task = new Task;
-        $task->theme_id=(int) $reguest->input('theme_id');
-        $task->name=$reguest->input('name');
-        $task->condition=$reguest->input('condition');
-        $task->user_id = Auth::id();
-        $task->save();
 
-        foreach (json_decode($reguest->input('answers')) as $item){
-            $answer = new Answer;
-            $answer->answer = $item->name;
-            $answer->task_id = $task->id;
-            $answer->save();
-        }
+        $data = $reguest->only([
+            'theme_id',
+            'name',
+            'condition'
+        ]);
+        $data['user_id'] = Auth::id();
+        $task = $this->taskService->saveTask($data);
+
+        $dataAnswer = json_decode($reguest->input('answers'));
+        $this->answerService->saveAnswer($dataAnswer,$task->id);
 
         if($reguest->has('file')){
-            $files = $reguest->file('file');
-            foreach ($files as $file) {
-                $image = new Image;
-                $temp_link =Storage::disk('dropbox')->put('', $file);//Storage::putFile('imagesAnswer', $reguest->file('file'));
-                $image->link = Storage::disk('dropbox')->url($temp_link);
-                $image->task_id = $task->id;
-                $image->save();
-            }
+            $this->imageService->saveImages($reguest->file('file'),$task->id);
         }
         return $task;
     }
 
     public function update(Request $reguest,$id){
 
-        $task = Task::find($id);
-        $task->theme_id=(int) $reguest->input('theme_id');
-        $task->name=$reguest->input('name');
-        $task->condition=$reguest->input('condition');
-        $task->save();
+        $data = $reguest->only([
+            'theme_id',
+            'name',
+            'condition'
+        ]);
+        $data['user_id'] = Auth::id();
+        $task = $this->taskService->updateTask($data,$id);
 
-        foreach (json_decode($reguest->input('answers')) as $item){
-            if (isset($item->id)){
-                $answer = Answer::find($item->id);
-            }else{
-                $answer = new Answer;
-            }
-            $answer->answer = $item->answer;
-            $answer->task_id = $task->id;
-            $answer->save();
-        }
+        $dataAnswer = json_decode($reguest->input('answers'));
+        $this->answerService->updateAnswer($dataAnswer,$task->id);
 
-        if($reguest->has('file')) {
-            $files = $reguest->file('file');
-            foreach ($files as $file) {
-                $image = new Image;
-                $temp_link = Storage::disk('dropbox')->put('', $file);//Storage::putFile('imagesAnswer', $reguest->file('file'));
-                $image->link = Storage::disk('dropbox')->url($temp_link);
-                $image->task_id = $task->id;
-                $image->save();
-            }
+        if($reguest->has('file')){
+            $this->imageService->saveImages($reguest->file('file'),$task->id);
         }
 
         return $task;
     }
 
     public function delete($id){
-        return Task::find($id)->delete();
+        return $this->taskService->deleteTask($id);
     }
 
     public function tasks(){
         return Task::select()->where([
             ['user_id', '=', Auth::user()->id]
         ])->orderBy('id', 'DESC')->get();
+    }
+
+    public function getTaskCurrentUser(){
+        return $this->taskService->getAllCurentUser(Auth::user()->id);
     }
 
 }

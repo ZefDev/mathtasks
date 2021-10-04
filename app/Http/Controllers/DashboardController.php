@@ -5,24 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Services\TaskService;
 
 class DashboardController extends Controller
 {
+    protected $taskService;
+    public function __construct(TaskService $taskService)
+    {
+        $this->taskService = $taskService;
+    }
     public function index(){
 
-        $lastTask = Task::with('user','theme','raitings')
-            ->withAvg('raitings', 'mark')
-            ->withCount('raitings')
-            ->orderBy('id', 'DESC')
-            ->limit(4)
-            ->get();
+        $lastTask = $this->taskService->getLastTasks(4);
+        $topTask = $this->taskService->getTopTasks(4);
 
-        $topTask = Task::with('user','theme','raitings')
-            ->withAvg('raitings','mark')
-            ->withCount('raitings')
-            ->orderBy('raitings_avg_mark', 'DESC')
-            ->limit(4)
-            ->get();
         return Inertia::render('Dashboard', [
             'lastTask' => $lastTask,
              'topTask' => $topTask
