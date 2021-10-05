@@ -149,4 +149,13 @@ class TaskController extends Controller
         return response()->json(['tasks'=>$tasks]);
     }
 
+    public function getTaskBySearch(Request $request){
+
+        $data = $request->only([
+            'text',
+        ]);
+
+        $tasks = $this->taskService->getTaskBySearch($data);
+        return response()->json(['tasksSearch'=>$tasks]);
+    }
 }

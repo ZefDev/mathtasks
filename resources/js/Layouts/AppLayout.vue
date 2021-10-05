@@ -31,11 +31,15 @@
                                 <jet-nav-link :href="route('mytasks')" :active="route().current('mytasks')">
                                     {{__('My tasks')}}
                                 </jet-nav-link>
+
                             </div>
                         </div>
-
+                        <div class="hidden sm:flex sm:ml-6 dark:bg-gray-800 dark:text-white">
+                            <search></search>
+                        </div>
                         <div class="hidden sm:flex sm:items-center sm:ml-6 dark:bg-gray-800 dark:text-white">
-                            <language-selector></language-selector>
+
+                            <language-selector class=""></language-selector>
                             <div class="ml-3 relative dark:bg-gray-800 dark:text-white">
                                 <!-- Teams Dropdown -->
                                 <jet-dropdown align="right" width="60" v-if="$page.props.jetstream.hasTeamFeatures">
@@ -168,6 +172,7 @@
                         <jet-responsive-nav-link :href="route('mytasks')" :active="route().current('mytasks')">
                             {{__('My tasks')}}
                         </jet-responsive-nav-link>
+
                         <language-selector></language-selector>
                     </div>
 
@@ -267,6 +272,7 @@
     import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue'
     import { Head, Link } from '@inertiajs/inertia-vue3';
     import LanguageSelector from "../Shared/LanguageSelector";
+    import search from "../Shared/search";
 
     export default defineComponent({
         props: {
@@ -283,6 +289,7 @@
             JetNavLink,
             JetResponsiveNavLink,
             Link,
+            search,
         },
 
         data() {

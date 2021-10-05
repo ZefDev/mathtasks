@@ -88,4 +88,18 @@ class TaskRepository{
     public function delete($id){
         return $this->task->find($id)->delete();
     }
+
+    public function getTaskBySearch($data){
+
+        return $this->task->select()
+            ->whereHas('comments', function ($query) use ($data) {
+                $query->where('text', 'like', '%' .$data['text'].'%');
+            })
+            ->withAvg('raitings', 'mark')
+            ->withCount('raitings')
+            ->orWhere('condition', 'like', '%' .$data['text'].'%')
+            ->orWhere('name', 'like', '%' .$data['text'].'%')
+            ->orderBy('id', 'DESC')
+            ->get();
+    }
 }

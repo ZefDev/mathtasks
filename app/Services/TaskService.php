@@ -68,5 +68,15 @@ class TaskService{
     public function deleteTask($id){
         return $this->taskRepository->delete($id);
     }
+
+    public function getTaskBySearch($data){
+        $validator = Validator::make($data,[
+            'text'=>'required',
+        ]);
+        if ($validator->fails()){
+            throw new InvalidArgumentException($validator->errors()->first());
+        }
+        return $this->taskRepository->getTaskBySearch($data);
+    }
 }
 

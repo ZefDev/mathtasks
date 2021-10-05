@@ -91,6 +91,8 @@ Route::get('/admin/users/{id}/set-admin', [UserController::class, 'setAdmin']);
 
 Route::get('/admin/tasks', [TaskController::class, 'tasks']);
 Route::get('/task/task-current-user', [TaskController::class, 'getTaskCurrentUser']);
+Route::post('/search', [TaskController::class, 'getTaskBySearch']);
+
 //Route::get('/task/achievements-user', [TaskController::class, 'getUserAchievements']);
 Route::post('/task/create', [TaskController::class, 'create']);
 Route::post('/task/update/{id}', [TaskController::class, 'update']);
