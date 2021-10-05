@@ -145,7 +145,8 @@ class TaskController extends Controller
     }
 
     public function getTaskCurrentUser(){
-        return $this->taskService->getAllCurentUser(Auth::user()->id);
+        $tasks = $this->taskService->getAllCurentUser(Auth::user()->id);
+        return response()->json(['tasks'=>$tasks]);
     }
 
 }

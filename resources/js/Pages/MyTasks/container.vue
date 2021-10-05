@@ -21,6 +21,7 @@
                         </jet-responsive-nav-link>
                     </div>
                     <table-task :tasks="tasks" v-on:updatetable="getTask()"></table-task>
+<!--                    <pagination :links="tasks.links"></pagination>-->
                 </div>
             </div>
         </div>
@@ -32,12 +33,14 @@ import { defineComponent } from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import TableTask from './table-tasks.vue'
 import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue'
+import pagination from "../../Shared/pagination";
 
 export default defineComponent({
     components: {
         AppLayout,
         JetResponsiveNavLink,
         TableTask,
+        pagination,
     },
     props: {
         created: 0,
@@ -49,17 +52,20 @@ export default defineComponent({
         }
     },
     methods:{
-        getTask(){
-            axios.get('/task/task-current-user')
-                .then(response=>{
-                    this.tasks = response.data;
-                })
-                .catch(error =>{
-                    console.log(error);
-                });
-        },
+        // getTask(){
+        //     this.$inertia.get('/task/task-current-user')
+        //         .then(response=>{
+        //             this.tasks = response.data;
+        //             //console.log(response.data);
+        //         })
+        //         .catch(error =>{
+        //             console.log(error);
+        //         });
+        // },
     },
     created() {
+        //this.getTask()
+        //console.log(this.$page.props.tasks);
         this.tasks = this.$page.props.tasks;
     }
 })

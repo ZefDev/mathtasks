@@ -14,20 +14,23 @@ class TaskRepository{
         $this->task = $task;
     }
 
-    public function getAllTasks(){
+    public function getAllTasks($page = 4){
         return $this->task->select()->with('user','theme')
             ->withAvg('raitings', 'mark')
             ->withCount('raitings')
             ->orderBy('id', 'DESC')
-            ->get();
+            ->paginate($page);
+            //->get();
     }
 
-    public function getAllTasksByUserId($id){
+    public function getAllTasksByUserId($id,$page = 4){
         return $this->task->select()->where([
             ['user_id', '=', $id]
         ])->withAvg('raitings','mark')
             ->withCount('raitings')
-            ->orderBy('id', 'DESC')->get();
+            ->orderBy('id', 'DESC')
+            //->paginate($page);
+            ->get();
     }
 
     public function getCountCreatedTasksByUserId($id){

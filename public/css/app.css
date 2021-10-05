@@ -1108,6 +1108,9 @@ select {
 .z-40 {
 	z-index: 40;
 }
+.z-10 {
+	z-index: 10;
+}
 .col-span-6 {
 	grid-column: span 6 / span 6;
 }
@@ -1441,6 +1444,11 @@ select {
 	margin-right: calc(1.5rem * var(--tw-space-x-reverse));
 	margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
+.-space-x-px > :not([hidden]) ~ :not([hidden]) {
+	--tw-space-x-reverse: 0;
+	margin-right: calc(-1px * var(--tw-space-x-reverse));
+	margin-left: calc(-1px * calc(1 - var(--tw-space-x-reverse)));
+}
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
 	--tw-space-x-reverse: 0;
 	margin-right: calc(0.5rem * var(--tw-space-x-reverse));
@@ -1543,6 +1551,10 @@ select {
 .border-gray-400 {
 	--tw-border-opacity: 1;
 	border-color: rgba(156, 163, 175, var(--tw-border-opacity));
+}
+.border-indigo-500 {
+	--tw-border-opacity: 1;
+	border-color: rgba(99, 102, 241, var(--tw-border-opacity));
 }
 .border-green-500 {
 	--tw-border-opacity: 1;

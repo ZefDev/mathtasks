@@ -16,7 +16,7 @@
                             </h1>
                         </div>
                         <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div v-for="task in lastTask" :key="task.id" class="bg-white rounded-lg p-6">
+                            <div v-for="task in lastTask.data" :key="task.id" class="bg-white rounded-lg p-6">
                                 <a :href="`/mytasks/${task.id}/view`">
                                     <div class="flex items-center space-x-6 mb-4">
                                         <img class="h-28 w-28 object-cover object-center rounded-full"
@@ -33,6 +33,7 @@
                                 </a>
                             </div>
                         </div>
+                        <pagination :links="lastTask.links"></pagination>
                     </section>
                 </div>
             </div>
@@ -43,13 +44,18 @@
 <script>
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
-
+    import pagination from "../../Shared/pagination";
     export default defineComponent({
         components: {
             AppLayout,
+            pagination,
         },
         props: {
             lastTask: Array
         },
+        created() {
+            //this.tasks =
+            console.log(this.$page.props.lastTask);
+        }
     })
 </script>
