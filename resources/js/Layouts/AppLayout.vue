@@ -172,7 +172,7 @@
                         <jet-responsive-nav-link :href="route('mytasks')" :active="route().current('mytasks')">
                             {{__('My tasks')}}
                         </jet-responsive-nav-link>
-
+                        <search></search>
                         <language-selector></language-selector>
                     </div>
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="rounded shadow-md my-2 relative pin-t pin-l">
+    <div class="rounded my-2 relative pin-t pin-l w-96">
         <ul class="list-reset">
             <li class="p-2">
                 <input v-model="text" @keyup="getTask" class="text-black border-2 rounded h-8 w-full">
@@ -7,7 +7,7 @@
             </li>
             <li class="bg-white" v-for="task in tasksSearch" :key="task.id">
                 <Link :href="`/mytasks/${task.id}/view`">
-                    <p class="p-2 block text-black hover:bg-grey-light cursor-pointer">{{task.id}}.{{task.name}} {{task.raitings_avg_mark}}({{task.raitings_count}})</p>
+                    <p class="p-2 block text-black hover:bg-grey-light cursor-pointer">{{task.id}}.{{task.name}} <span  v-if="task.raitings_avg_mark !== null">{{task.raitings_avg_mark.substr(0, 4)}}</span>({{task.raitings_count}})</p>
                 </Link>
             </li>
         </ul>
