@@ -12,7 +12,7 @@
             <tr v-for="task in tasks" :key="task.id">
                 <td class="text-center p-4">{{ task.id }}</td>
                 <td class="text-center">{{ task.name }}</td>
-                <td class="text-center"><span  v-if="task.raitings_avg_mark !== null">{{task.raitings_avg_mark.substr(0, 4)}}</span>({{task.raitings_count}})</td>
+                <td class="text-center"><span v-if="task.raitings_avg_mark !== null">{{task.raitings_avg_mark.substr(0, 4)}}</span>({{task.raitings_count}})</td>
                 <td class="text-center">
                     <a :href="`/mytasks/${task.id}/view`" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         {{__('View')}}

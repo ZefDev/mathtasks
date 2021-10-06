@@ -24,4 +24,8 @@ class DashboardController extends Controller
              'topTask' => $topTask
         ]);
     }
+
+    public function indexBlock(){
+        return Inertia::render('Block');
+    }
 }

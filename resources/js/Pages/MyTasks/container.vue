@@ -52,16 +52,16 @@ export default defineComponent({
         }
     },
     methods:{
-        // getTask(){
-        //     this.$inertia.get('/task/task-current-user')
-        //         .then(response=>{
-        //             this.tasks = response.data;
-        //             //console.log(response.data);
-        //         })
-        //         .catch(error =>{
-        //             console.log(error);
-        //         });
-        // },
+        getTask(){
+            axios.get('/task/task-current-user')
+                .then(response=>{
+                    this.tasks = response.data.tasks;
+                    //console.log(response.data);
+                })
+                .catch(error =>{
+                    console.log(error);
+                });
+        },
     },
     created() {
         //this.getTask()
