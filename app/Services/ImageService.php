@@ -41,7 +41,7 @@ class ImageService
 //            $link = $client->createTemporaryDirectLink($filename);
 //            //dd($temp_link);
             $temp_data = array();
-            $client = new Client("G1RyECevtnAAAAAAAAAAAa9SK-Nx766sPNcRmvWkJ_GqI27hurs7DFUHPXoNJ60e");
+            $client = new Client("dSEFL7pT0DoAAAAAAAAAAY0neghsQ_bZoHm5Q24wM7y2EPJf1Ocv-HsCz075ix3K");
             $temp_link = "/".Storage::disk('dropbox')->put('', $file);
             $arr = array( "audience"=> "public",
                 "access"=> "viewer",
